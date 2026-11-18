@@ -1,0 +1,126 @@
+# Decap CMS-configuratie voor Top Judo Lindeweerd
+# Documentatie: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'CMS: {{collection}} "{{slug}}" toegevoegd'
+    update: 'CMS: {{collection}} "{{slug}}" bijgewerkt'
+    delete: 'CMS: {{collection}} "{{slug}}" verwijderd'
+    uploadMedia: 'CMS: bestand "{{path}}" geüpload'
+    deleteMedia: 'CMS: bestand "{{path}}" verwijderd'
+
+# Lokaal testen zonder inloggen: start `npm run cms` naast `npm run dev`
+local_backend: true
+
+locale: nl
+site_url: /
+display_url: /
+logo_url: /favicon.svg
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+# Twee talen. Elke collectie heeft een map per taal: nl/ en en/.
+# Velden met "i18n: duplicate" vul je één keer in (bijvoorbeeld datum, plaats, prijs).
+# Velden met "i18n: true" vertaal je per taal.
+# Laat je de Engelse versie leeg, dan toont de site de Nederlandse tekst.
+i18n:
+  structure: multiple_folders
+  locales: [nl, en]
+  default_locale: nl
+
+collections:
+  - name: nieuws
+    label: Nieuws
+    label_singular: Nieuwsbericht
+    description: Berichten voor de nieuwspagina en de homepage.
+    folder: src/content/nieuws
+    create: true
+    slug: '{{slug}}'
+    i18n: true
+    sortable_fields: [date, title]
+    summary: '{{title}} ({{date | date("D MMMM YYYY")}})'
+    fields:
+      - { label: Titel, name: title, widget: string, i18n: true }
+      - { label: Datum, name: date, widget: datetime, date_format: 'DD-MM-YYYY', time_format: false, format: 'YYYY-MM-DD', i18n: duplicate }
+      - { label: Samenvatting, name: summary, widget: text, required: false, hint: 'Eén of twee zinnen voor het overzicht.', i18n: true }
+      - { label: Afbeelding, name: image, widget: image, required: false, hint: 'Geen foto’s van echte personen gebruiken.', i18n: duplicate }
+      - { label: Beschrijving afbeelding, name: imageAlt, widget: string, required: false, hint: 'Korte beschrijving voor mensen die de afbeelding niet kunnen zien.', i18n: true }
+      - { label: Tekst, name: body, widget: markdown, i18n: true }
+
+  - name: clubs
+    label: Clubs
+    label_singular: Club
+    description: Partnerclubs op de pagina "Vind een club".
+    folder: src/content/clubs
+    format: json
+    extension: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    i18n: true
+    summary: '{{name}} ({{place}})'
+    fields:
+      - { label: Naam, name: name, widget: string, i18n: duplicate }
+      - { label: Plaats, name: place, widget: string, i18n: duplicate }
+      - { label: Website, name: website, widget: string, required: false, hint: 'Volledig adres, beginnend met https://', i18n: duplicate }
+      - { label: Korte tekst, name: description, widget: text, i18n: true }
+      - { label: Medeoprichter, name: cofounder, widget: boolean, default: false, i18n: duplicate }
+
+  - name: trainingen
+    label: Trainingen
+    label_singular: Training
+    description: Het trainingsrooster op de pagina "Voor ouders".
+    folder: src/content/trainingen
+    format: json
+    extension: json
+    create: true
+    slug: '{{ageGroup}}-{{day}}'
+    identifier_field: ageGroup
+    i18n: true
+    summary: '{{ageGroup}}, {{day}} {{time}}'
+    fields:
+      - { label: Leeftijdsgroep, name: ageGroup, widget: string, hint: 'Bijvoorbeeld: Talent 8-10 jaar', i18n: true }
+      - label: Dag
+        name: day
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: Maandag, value: mon }
+          - { label: Dinsdag, value: tue }
+          - { label: Woensdag, value: wed }
+          - { label: Donderdag, value: thu }
+          - { label: Vrijdag, value: fri }
+          - { label: Zaterdag, value: sat }
+          - { label: Zondag, value: sun }
+      - { label: Tijd, name: time, widget: string, hint: 'Bijvoorbeeld: 16:30 - 17:45', i18n: duplicate }
+      - { label: Locatie, name: location, widget: string, i18n: duplicate }
+
+  - name: lidmaatschappen
+    label: Lidmaatschappen
+    label_singular: Lidmaatschap
+    description: >-
+      Lidmaatschappen op de pagina "Voor ouders". Bedragen staan standaard alleen in de ledenomgeving.
+      Zet "Prijs publiek tonen" alleen aan als het bestuur dat heeft besloten.
+    folder: src/content/lidmaatschappen
+    format: json
+    extension: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    i18n: true
+    summary: '{{name}}'
+    fields:
+      - { label: Naam, name: name, widget: string, i18n: true }
+      - { label: Volgorde, name: order, widget: number, value_type: int, default: 1, hint: 'Laagste nummer staat bovenaan.', i18n: duplicate }
+      - label: Wat je krijgt
+        name: includes
+        widget: list
+        i18n: true
+        collapsed: false
+        label_singular: onderdeel
+        field: { label: Onderdeel, name: item, widget: string }
+      - { label: Prijs per jaar (euro), name: pricePerYear, widget: number, value_type: int, required: false, i18n: duplicate }
+      - { label: Prijs publiek tonen, name: showPrice, widget: boolean, default: false, hint: 'Standaard uit: ouders horen de prijs na het gesprek met de trainer.', i18n: duplicate }

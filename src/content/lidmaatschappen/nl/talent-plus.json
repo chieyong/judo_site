@@ -1,0 +1,11 @@
+{
+  "name": "Talent Plus",
+  "order": 2,
+  "pricePerYear": 395,
+  "showPrice": false,
+  "includes": [
+    "Twee extra talenttrainingen per week",
+    "Persoonlijk ontwikkelplan",
+    "Deelname aan stagedagen in de schoolvakanties"
+  ]
+}

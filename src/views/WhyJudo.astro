@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import { path, routes, type Lang } from '../i18n/routes';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    title: 'Waarom judo?',
+    description: 'Judo als aanvulling op voetbal, hockey en andere teamsporten.',
+    lead: 'Veel kinderen doen al een teamsport. Judo is daar een sterke aanvulling op: het traint het hele lichaam en leert kinderen omgaan met spanning, winst en verlies.',
+    benefitsTitle: 'Wat judo toevoegt aan een teamsport',
+    benefits: [
+      { title: 'Valbreken', text: 'Judoka’s leren veilig vallen. Dat helpt bij elke sport en voorkomt blessures.' },
+      { title: 'Balans en kracht', text: 'Judo traint evenwicht, rompkracht en coördinatie, op een speelse manier.' },
+      { title: 'Zelfvertrouwen', text: 'Op de mat sta je er zelf voor. Dat geeft kinderen vertrouwen, ook buiten de sport.' },
+      { title: 'Respect', text: 'Groeten, op je beurt wachten en zorgen voor je partner horen bij elke training.' },
+      { title: 'Omgaan met verlies', text: 'Wie valt, staat op en probeert het opnieuw. Een les voor het leven.' },
+      { title: 'Het hele jaar door', text: 'Judo is een binnensport zonder seizoen, dus een goede aanvulling in de winter.' },
+    ],
+    combineTitle: 'Judo en teamsport combineren',
+    combineText:
+      'Onze talentgroepen trainen op vaste momenten, zodat ze goed te combineren zijn met een teamsport. In het gesprek met de trainer kijken we samen wat haalbaar is, zodat uw kind niet overbelast raakt.',
+    quote: '“Sinds hij op judo zit, valt hij op het voetbalveld een stuk handiger.”',
+    quoteBy: 'Fictieve ouder, Lindeweerd',
+    cta: 'Lees meer voor ouders',
+  },
+  en: {
+    title: 'Why judo?',
+    description: 'Judo as a complement to football, hockey and other team sports.',
+    lead: 'Many children already play a team sport. Judo is a great complement: it trains the whole body and teaches children to handle pressure, winning and losing.',
+    benefitsTitle: 'What judo adds to a team sport',
+    benefits: [
+      { title: 'Breakfalls', text: 'Judoka learn to fall safely. That helps in every sport and prevents injuries.' },
+      { title: 'Balance and strength', text: 'Judo trains balance, core strength and coordination in a playful way.' },
+      { title: 'Confidence', text: 'On the mat you stand on your own. That builds confidence, on and off the mat.' },
+      { title: 'Respect', text: 'Bowing, waiting your turn and looking after your partner are part of every session.' },
+      { title: 'Handling defeat', text: 'If you fall, you get up and try again. A lesson for life.' },
+      { title: 'All year round', text: 'Judo is an indoor sport without a season, so it fits well in winter.' },
+    ],
+    combineTitle: 'Combining judo with a team sport',
+    combineText:
+      'Our talent groups train at fixed times so they combine well with a team sport. In the conversation with the coach we look at what is feasible, so your child does not get overloaded.',
+    quote: '“Since he started judo, he falls a lot more skilfully on the football pitch.”',
+    quoteBy: 'Fictional parent, Lindeweerd',
+    cta: 'Read more for parents',
+  },
+}[lang];
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.whyJudo}>
+  <div class="container page-header">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+  </div>
+
+  <section class="section section--tint" aria-labelledby="benefits-title">
+    <div class="container">
+      <h2 id="benefits-title">{copy.benefitsTitle}</h2>
+      <ul class="grid benefits">
+        {
+          copy.benefits.map((b) => (
+            <li class="card">
+              <h3>{b.title}</h3>
+              <p>{b.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container combine">
+      <div>
+        <h2>{copy.combineTitle}</h2>
+        <p>{copy.combineText}</p>
+        <a class="button" href={path('parents', lang)}>{copy.cta}</a>
+      </div>
+      <figure class="quote">
+        <blockquote><p>{copy.quote}</p></blockquote>
+        <figcaption>{copy.quoteBy}</figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .benefits h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+  .benefits p {
+    margin: 0;
+  }
+  .combine {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .quote {
+    margin: 0;
+    padding: var(--space-6);
+    background: var(--color-accent-tint);
+    border-radius: var(--radius-lg);
+    border-left: 6px solid var(--color-accent);
+  }
+  .quote blockquote {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+  }
+  .quote figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+  @media (min-width: 48rem) {
+    .combine {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+</style>

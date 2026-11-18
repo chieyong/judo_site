@@ -1,0 +1,181 @@
+---
+import Base from '../layouts/Base.astro';
+import DemoForm from '../components/DemoForm.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    title: 'Voor trainers',
+    description: 'Hoe trainers van partnerclubs talent kunnen voordragen.',
+    lead: 'Als trainer ken je jouw judoka’s het best. Zie je een kind met talent en plezier dat meer aankan? Draag het dan voor.',
+    howTitle: 'Zo werkt voordragen',
+    how: [
+      'Bespreek het eerst met de ouders en het kind. Voordragen gebeurt altijd samen.',
+      'Vul het formulier hieronder in. Je hoeft geen persoonsgegevens van het kind te geven, alleen voornaam of initialen.',
+      'We nodigen het kind uit voor een kennismakingstraining of stagedag.',
+      'Daarna volgt een gesprek met ouders, kind en jou als clubtrainer.',
+    ],
+    lookTitle: 'Waar letten we op?',
+    look: ['Plezier en inzet', 'Leervermogen en techniekgevoel', 'Omgaan met winst en verlies', 'Steun vanuit thuis'],
+    formTitle: 'Talent voordragen',
+    fields: {
+      trainer: 'Jouw naam',
+      club: 'Club',
+      clubChoose: 'Kies een club',
+      initials: 'Voornaam of initialen van de judoka',
+      initialsHint: 'Geen achternaam of geboortedatum nodig.',
+      age: 'Leeftijd',
+      belt: 'Band',
+      beltOptions: ['Wit', 'Geel', 'Oranje', 'Groen', 'Blauw', 'Bruin'],
+      parents: 'Ouders zijn op de hoogte',
+      why: 'Waarom draag je deze judoka voor?',
+    },
+    submit: 'Voordracht versturen',
+  },
+  en: {
+    title: 'For coaches',
+    description: 'How coaches at partner clubs can nominate talent.',
+    lead: 'As a coach you know your judoka best. Do you see a child with talent and enthusiasm who can handle more? Then nominate them.',
+    howTitle: 'How nominating works',
+    how: [
+      'Discuss it with the parents and the child first. Nominations are always made together.',
+      'Fill in the form below. You do not need to share personal details, just a first name or initials.',
+      'We invite the child to an introductory session or camp day.',
+      'This is followed by a conversation with the parents, the child and you as club coach.',
+    ],
+    lookTitle: 'What do we look for?',
+    look: ['Enjoyment and effort', 'Ability to learn and feel for technique', 'Handling winning and losing', 'Support from home'],
+    formTitle: 'Nominate talent',
+    fields: {
+      trainer: 'Your name',
+      club: 'Club',
+      clubChoose: 'Choose a club',
+      initials: 'First name or initials of the judoka',
+      initialsHint: 'No surname or date of birth needed.',
+      age: 'Age',
+      belt: 'Belt',
+      beltOptions: ['White', 'Yellow', 'Orange', 'Green', 'Blue', 'Brown'],
+      parents: 'Parents have been informed',
+      why: 'Why are you nominating this judoka?',
+    },
+    submit: 'Send nomination',
+  },
+}[lang];
+
+const clubs = (await getLocalized('clubs', lang)).map((c) => c.data.name).sort((a, b) => a.localeCompare(b));
+const f = copy.fields;
+const req = t('form.required');
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.coaches}>
+  <div class="container page-header">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+  </div>
+
+  <section class="section section--tint">
+    <div class="container two-col">
+      <div>
+        <h2>{copy.howTitle}</h2>
+        <ol class="how">
+          {copy.how.map((line) => <li>{line}</li>)}
+        </ol>
+      </div>
+      <div>
+        <h2>{copy.lookTitle}</h2>
+        <ul class="look">
+          {copy.look.map((line) => <li>{line}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="form-title">
+    <div class="container">
+      <h2 id="form-title">{copy.formTitle}</h2>
+      <DemoForm lang={lang} id="nominate" submitLabel={copy.submit}>
+        <div class="field">
+          <label for="n-trainer">{f.trainer} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+          <input id="n-trainer" name="trainer" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="n-club">{f.club} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+          <select id="n-club" name="club" required>
+            <option value="">{f.clubChoose}</option>
+            {clubs.map((c) => <option>{c}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="n-initials">{f.initials} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+          <span class="hint" id="n-initials-hint">{f.initialsHint}</span>
+          <input id="n-initials" name="initials" type="text" autocomplete="off" aria-describedby="n-initials-hint" required />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="n-age">{f.age}</label>
+            <input id="n-age" name="age" type="number" inputmode="numeric" min="5" max="18" />
+          </div>
+          <div class="field">
+            <label for="n-belt">{f.belt}</label>
+            <select id="n-belt" name="belt">
+              {f.beltOptions.map((b) => <option>{b}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="n-why">{f.why}</label>
+          <textarea id="n-why" name="why"></textarea>
+        </div>
+        <div class="check">
+          <input id="n-parents" name="parents" type="checkbox" required />
+          <label for="n-parents">{f.parents} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+        </div>
+      </DemoForm>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .two-col {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .how li,
+  .look li {
+    margin-bottom: var(--space-2);
+  }
+  .look li::marker,
+  .how li::marker {
+    color: var(--color-brand);
+    font-weight: 700;
+  }
+  .row {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  }
+  .check {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-weight: 600;
+  }
+  .check input {
+    width: 1.375rem;
+    height: 1.375rem;
+    accent-color: var(--color-brand);
+  }
+  @media (min-width: 48rem) {
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

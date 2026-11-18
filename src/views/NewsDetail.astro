@@ -1,0 +1,57 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatDate, useTranslations, type Localized } from '../i18n/utils';
+import { path, newsAlternates, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  item: Localized<'nieuws'>;
+}
+
+const { lang, item } = Astro.props;
+const t = useTranslations(lang);
+const { Content } = await render(item);
+const { title, date, image, imageAlt, summary } = item.data;
+---
+
+<Base lang={lang} title={title} description={summary} alternates={newsAlternates(item.slug)}>
+  <article class="container article">
+    <p class="back"><a href={path('news', lang)}>← {t('news.back')}</a></p>
+    {item.isFallback && <p class="fallback-note">{t('fallback.notice')}</p>}
+    <div lang={item.isFallback ? item.contentLang : undefined}>
+      <header>
+        <h1>{title}</h1>
+        <p class="date"><time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time></p>
+      </header>
+      {image && <img class="cover" src={image} alt={imageAlt ?? ''} width="800" height="450" />}
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article {
+    max-width: 48rem;
+    padding-top: var(--space-6);
+  }
+  .back {
+    font-weight: 600;
+  }
+  .date {
+    color: var(--color-text-muted);
+  }
+  .cover {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    margin-block: var(--space-5);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .prose :global(h2) {
+    font-size: var(--text-xl);
+    margin-top: var(--space-6);
+  }
+</style>

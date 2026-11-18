@@ -1,0 +1,67 @@
+---
+import type { Localized } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  item: Localized<'lidmaatschappen'>;
+  lang: Lang;
+  /** Alleen true in de (demo) ledenomgeving. */
+  forceShowPrice?: boolean;
+}
+
+const { item, lang, forceShowPrice = false } = Astro.props;
+const t = useTranslations(lang);
+const { name, includes, pricePerYear, showPrice } = item.data;
+const priceVisible = (forceShowPrice || showPrice) && typeof pricePerYear === 'number';
+const price = priceVisible
+  ? new Intl.NumberFormat(lang === 'nl' ? 'nl-NL' : 'en-GB', {
+      style: 'currency',
+      currency: 'EUR',
+      maximumFractionDigits: 0,
+    }).format(pricePerYear!)
+  : null;
+---
+
+<article class="membership card" lang={item.isFallback ? item.contentLang : undefined}>
+  <h3>{name}</h3>
+  {
+    price && (
+      <p class="price">
+        <strong>{price}</strong> <span>{t('price.perYear')}</span>
+      </p>
+    )
+  }
+  <p class="includes-label">{t('membership.includes')}</p>
+  <ul class="includes">
+    {includes.map((line) => <li>{line}</li>)}
+  </ul>
+</article>
+
+<style>
+  .membership {
+    border-top: 6px solid var(--color-brand);
+  }
+  .price {
+    font-size: var(--text-xl);
+    color: var(--color-brand);
+  }
+  .price span {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .includes-label {
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .includes {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+  .includes li + li {
+    margin-top: var(--space-1);
+  }
+  .includes li::marker {
+    color: var(--color-brand);
+  }
+</style>

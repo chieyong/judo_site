@@ -1,0 +1,70 @@
+---
+import { path, type Lang } from '../i18n/routes';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <div>
+      <p class="name">{t('site.name')}</p>
+      <p class="muted">{t('site.tagline')}</p>
+    </div>
+    <ul class="links">
+      <li><a href={path('parents', lang)}>{t('nav.parents')}</a></li>
+      <li><a href={path('clubs', lang)}>{t('nav.clubs')}</a></li>
+      <li><a href={path('coaches', lang)}>{t('nav.coaches')}</a></li>
+      <li><a href={path('news', lang)}>{t('nav.news')}</a></li>
+    </ul>
+    <div class="poc">
+      <p><strong>{t('footer.poc')}</strong></p>
+      <p class="muted">{t('footer.privacy')} © {year}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-8);
+    background: var(--color-text);
+    color: #f3efe8;
+    padding-block: var(--space-7);
+    font-size: var(--text-sm);
+  }
+  .inner {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  }
+  .name {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+  .muted {
+    color: #cfc7bb; /* 10:1 op de donkere footer */
+  }
+  .links {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .site-footer a {
+    color: #fff;
+  }
+  .site-footer a:hover {
+    color: var(--color-accent);
+  }
+  .site-footer :focus-visible {
+    outline-color: var(--color-accent);
+  }
+</style>

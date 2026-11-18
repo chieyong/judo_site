@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const lead = {
+  nl: 'Nieuws over trainingen, stagedagen en de partnerclubs.',
+  en: 'News about training sessions, camp days and the partner clubs.',
+}[lang];
+
+const news = (await getLocalized('nieuws', lang)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Base lang={lang} title={t('nav.news')} description={lead} alternates={routes.news}>
+  <div class="container page-header">
+    <h1>{t('nav.news')}</h1>
+    <p class="lead">{lead}</p>
+  </div>
+  <div class="container">
+    <div class="grid">
+      {news.map((item) => <NewsCard item={item} lang={lang} headingLevel="h2" />)}
+    </div>
+  </div>
+</Base>

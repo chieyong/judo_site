@@ -1,0 +1,11 @@
+{
+  "name": "Talent",
+  "order": 1,
+  "pricePerYear": 240,
+  "showPrice": false,
+  "includes": [
+    "Eén extra talenttraining per week",
+    "Begeleiding door een vaste talenttrainer",
+    "Twee evaluatiegesprekken per seizoen"
+  ]
+}

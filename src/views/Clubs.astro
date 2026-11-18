@@ -1,0 +1,166 @@
+---
+import Base from '../layouts/Base.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    title: 'Vind een club',
+    description: 'De partnerclubs van Top Judo Lindeweerd, met filter op plaats.',
+    lead: 'Deze clubs werken samen in Top Judo Lindeweerd. Uw kind traint bij de eigen club en kan via de trainer instromen in het talentprogramma.',
+    cofounderHint: 'Medeoprichters waren er vanaf het begin bij.',
+    visit: 'Bezoek de website van',
+  },
+  en: {
+    title: 'Find a club',
+    description: 'The partner clubs of Top Judo Lindeweerd, filterable by town.',
+    lead: 'These clubs work together in Top Judo Lindeweerd. Your child trains at their own club and can join the talent programme through their coach.',
+    cofounderHint: 'Co-founders have been involved from the start.',
+    visit: 'Visit the website of',
+  },
+}[lang];
+
+const clubs = (await getLocalized('clubs', lang)).sort(
+  (a, b) => Number(b.data.cofounder) - Number(a.data.cofounder) || a.data.name.localeCompare(b.data.name),
+);
+const places = [...new Set(clubs.map((c) => c.data.place))].sort((a, b) => a.localeCompare(b));
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.clubs}>
+  <div class="container page-header">
+    <h1>{copy.title}</h1>
+    <p class="lead">{copy.lead}</p>
+  </div>
+
+  <div class="container">
+    <div class="filter" data-club-filter hidden>
+      <div class="field">
+        <label for="place-filter">{t('clubs.filterLabel')}</label>
+        <select id="place-filter">
+          <option value="">{t('clubs.filterAll')}</option>
+          {places.map((p) => <option value={p}>{p}</option>)}
+        </select>
+      </div>
+      <p class="count" role="status" aria-live="polite">
+        <span data-club-count>{clubs.length}</span> {t('clubs.count')}
+      </p>
+    </div>
+    <p class="hint">{copy.cofounderHint}</p>
+
+    <ul class="grid clubs">
+      {
+        clubs.map((club) => (
+          <li class="card club" data-place={club.data.place} lang={club.isFallback ? club.contentLang : undefined}>
+            <div class="club-head">
+              <h2>{club.data.name}</h2>
+              {club.data.cofounder && <span class="badge">{t('clubs.cofounder')}</span>}
+            </div>
+            <p class="place">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                <path
+                  d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <circle cx="12" cy="10" r="2.5" fill="currentColor" />
+              </svg>
+              {club.data.place}
+            </p>
+            <p>{club.data.description}</p>
+            {club.data.website && (
+              <a href={club.data.website} rel="noopener">
+                {t('clubs.website')}
+                <span class="visually-hidden">
+                  {' '}
+                  {copy.visit} {club.data.name}
+                </span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Base>
+
+<script>
+  // Filter op plaats. Zonder JavaScript zijn alle clubs zichtbaar en blijft het filter verborgen.
+  const wrap = document.querySelector<HTMLElement>('[data-club-filter]');
+  const select = wrap?.querySelector<HTMLSelectElement>('select');
+  const count = wrap?.querySelector<HTMLElement>('[data-club-count]');
+  const cards = document.querySelectorAll<HTMLElement>('.club[data-place]');
+  if (wrap && select && count) {
+    wrap.hidden = false;
+    select.addEventListener('change', () => {
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = !select.value || card.dataset.place === select.value;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      count.textContent = String(shown);
+    });
+  }
+</script>
+
+<style>
+  .filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3) var(--space-5);
+    margin-bottom: var(--space-3);
+  }
+  .filter[hidden] {
+    display: none;
+  }
+  .filter .field {
+    min-width: min(100%, 16rem);
+  }
+  .count {
+    margin: 0 0 var(--space-2);
+    color: var(--color-text-muted);
+  }
+  .hint {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+  }
+  .clubs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .club[hidden] {
+    display: none;
+  }
+  .club-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+  .club h2 {
+    font-size: var(--text-xl);
+    margin: 0;
+  }
+  .place {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+  .club a {
+    font-weight: 600;
+  }
+</style>

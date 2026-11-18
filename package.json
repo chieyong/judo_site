@@ -1,0 +1,22 @@
+{
+  "name": "top-judo-lindeweerd",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Proof of concept: clubsite voor een fictieve judo-talentorganisatie, gebouwd met Claude Code.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "cms": "decap-server"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "astro": "5.18.2"
+  },
+  "devDependencies": {
+    "decap-server": "^3.11.6"
+  }
+}

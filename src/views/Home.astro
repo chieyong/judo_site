@@ -1,0 +1,205 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { path, routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    description: 'Top Judo Lindeweerd helpt jonge judoka’s met talent een stap verder, samen met hun eigen club.',
+    heroTitle: 'Meer uit judo halen, zonder je club te verlaten',
+    heroLead:
+      'Top Judo Lindeweerd is een samenwerking van zes judoclubs. Kinderen met talent en plezier in judo krijgen bij ons extra training en begeleiding, naast hun eigen club.',
+    ctaParents: 'Informatie voor ouders',
+    ctaClubs: 'Vind een club',
+    whoTitle: 'Wie we zijn',
+    whoText:
+      'Wij zijn trainers, vrijwilligers en ouders uit Lindeweerd en omgeving. Samen zorgen we dat talentvolle judoka’s goed begeleid worden, dicht bij huis.',
+    partnerTitle: 'Wat is een talentpartner?',
+    partnerText:
+      'Een talentpartner is een judoclub die met ons samenwerkt. De trainer van de club herkent talent en kan een judoka voordragen. Het kind blijft lid van de eigen club en traint daarnaast extra bij ons.',
+    points: [
+      { title: 'Eigen club blijft thuisbasis', text: 'Vriendjes, trainer en vertrouwde mat blijven gewoon.' },
+      { title: 'Extra training op maat', text: 'Kleine groepen, gericht op techniek, plezier en zelfvertrouwen.' },
+      { title: 'Stap voor stap', text: 'Geen druk: elk kind groeit in zijn eigen tempo.' },
+    ],
+    ctaTitle: 'Heeft uw kind talent voor judo?',
+    ctaText: 'Lees hoe het traject werkt, of uw kind erbij past en wat het lidmaatschap inhoudt.',
+    ctaButton: 'Naar de pagina voor ouders',
+  },
+  en: {
+    description: 'Top Judo Lindeweerd helps talented young judoka take the next step, together with their own club.',
+    heroTitle: 'Get more out of judo, without leaving your club',
+    heroLead:
+      'Top Judo Lindeweerd is a partnership of six judo clubs. Children with talent and a love of judo get extra training and guidance from us, alongside their own club.',
+    ctaParents: 'Information for parents',
+    ctaClubs: 'Find a club',
+    whoTitle: 'Who we are',
+    whoText:
+      'We are coaches, volunteers and parents from Lindeweerd and the surrounding area. Together we make sure talented judoka get good guidance, close to home.',
+    partnerTitle: 'What is a talent partner?',
+    partnerText:
+      'A talent partner is a judo club that works with us. The club’s coach spots talent and can nominate a judoka. The child stays a member of their own club and trains with us on top of that.',
+    points: [
+      { title: 'Their own club stays home base', text: 'Friends, coach and the familiar mat all stay the same.' },
+      { title: 'Tailored extra training', text: 'Small groups, focused on technique, fun and confidence.' },
+      { title: 'One step at a time', text: 'No pressure: every child grows at their own pace.' },
+    ],
+    ctaTitle: 'Does your child have a talent for judo?',
+    ctaText: 'Find out how the pathway works, whether it suits your child and what membership includes.',
+    ctaButton: 'Go to the parents page',
+  },
+}[lang];
+
+const news = (await getLocalized('nieuws', lang))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+---
+
+<Base lang={lang} title={t('site.name')} description={copy.description} alternates={routes.home}>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <h1>{copy.heroTitle}</h1>
+        <p class="lead">{copy.heroLead}</p>
+        <p class="actions">
+          <a class="button" href={path('parents', lang)}>{copy.ctaParents}</a>
+          <a class="button button--ghost" href={path('clubs', lang)}>{copy.ctaClubs}</a>
+        </p>
+      </div>
+      <img src="/images/placeholders/hero.svg" alt="" width="600" height="500" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div>
+        <h2>{copy.whoTitle}</h2>
+        <p>{copy.whoText}</p>
+      </div>
+      <div>
+        <h2>{copy.partnerTitle}</h2>
+        <p>{copy.partnerText}</p>
+      </div>
+    </div>
+    <div class="container">
+      <ul class="points grid">
+        {
+          copy.points.map((p) => (
+            <li class="card">
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--tint" aria-labelledby="news-title">
+    <div class="container">
+      <div class="section-head">
+        <h2 id="news-title">{t('news.latest')}</h2>
+        <a href={path('news', lang)}>{t('news.all')}</a>
+      </div>
+      <div class="grid">
+        {news.map((item) => <NewsCard item={item} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>{copy.ctaTitle}</h2>
+        <p>{copy.ctaText}</p>
+        <a class="button button--accent" href={path('parents', lang)}>{copy.ctaButton}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-7);
+  }
+  .hero-inner {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .hero img {
+    max-width: 26rem;
+    width: 100%;
+    justify-self: center;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .two-col {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .points {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-5);
+  }
+  .points h3 {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+  .points p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .section-head h2 {
+    margin: 0;
+  }
+  .section-head a {
+    font-weight: 600;
+  }
+  .cta {
+    background: var(--color-brand);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: var(--space-7) var(--space-6);
+    text-align: center;
+  }
+  .cta p {
+    max-width: 36rem;
+    margin-inline: auto;
+    margin-bottom: var(--space-5);
+  }
+  .cta :focus-visible {
+    outline-color: #fff;
+  }
+  @media (min-width: 48rem) {
+    .hero-inner {
+      grid-template-columns: 3fr 2fr;
+    }
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+import { getLocalized, useTranslations, dayOrder } from '../i18n/utils';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  caption: string;
+}
+
+const { lang, caption } = Astro.props;
+const t = useTranslations(lang);
+const items = (await getLocalized('trainingen', lang)).sort(
+  (a, b) =>
+    dayOrder.indexOf(a.data.day) - dayOrder.indexOf(b.data.day) || a.data.time.localeCompare(b.data.time),
+);
+---
+
+<div class="table-wrap" role="region" aria-label={caption} tabindex="0">
+  <table>
+    <caption>{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{t('schedule.day')}</th>
+        <th scope="col">{t('schedule.time')}</th>
+        <th scope="col">{t('schedule.ageGroup')}</th>
+        <th scope="col">{t('schedule.location')}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        items.map((item) => (
+          <tr>
+            <th scope="row">{t(`day.${item.data.day}`)}</th>
+            <td>{item.data.time}</td>
+            <td lang={item.isFallback ? item.contentLang : undefined}>{item.data.ageGroup}</td>
+            <td>{item.data.location}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 34rem;
+  }
+  caption {
+    text-align: left;
+    font-weight: 700;
+    padding: var(--space-4) var(--space-4) var(--space-2);
+  }
+  th,
+  td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+  thead th {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  tbody th {
+    font-weight: 600;
+  }
+</style>

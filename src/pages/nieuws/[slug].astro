@@ -1,0 +1,13 @@
+---
+import NewsDetail from '../../views/NewsDetail.astro';
+import { getLocalized } from '../../i18n/utils';
+
+export async function getStaticPaths() {
+  const items = await getLocalized('nieuws', 'nl');
+  return items.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+---
+
+<NewsDetail lang="nl" item={item} />

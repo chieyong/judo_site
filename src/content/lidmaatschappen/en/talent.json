@@ -1,0 +1,11 @@
+{
+  "name": "Talent",
+  "order": 1,
+  "pricePerYear": 240,
+  "showPrice": false,
+  "includes": [
+    "One extra talent session per week",
+    "Guidance from a dedicated talent coach",
+    "Two progress reviews per season"
+  ]
+}

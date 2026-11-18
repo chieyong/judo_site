@@ -1,0 +1,217 @@
+---
+import Base from '../layouts/Base.astro';
+import MembershipCard from '../components/MembershipCard.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    title: 'Leden',
+    description: 'Demo van een ledenomgeving. Geen echte login.',
+    banner:
+      'Dit is een demo. Er is geen echte login: elke naam en elk wachtwoord werkt, en er wordt niets opgeslagen of verstuurd.',
+    loginTitle: 'Inloggen',
+    username: 'Gebruikersnaam',
+    password: 'Wachtwoord',
+    login: 'Inloggen (demo)',
+    noscript: 'Voor deze demo is JavaScript nodig.',
+    welcome: 'Welkom in de ledenomgeving',
+    welcomeText: 'Hier vinden ouders en judoka’s praktische informatie. Alle inhoud is voorbeeldcontent.',
+    pricesTitle: 'Lidmaatschappen en bijdrage',
+    pricesText: 'De bedragen hieronder zijn alleen zichtbaar voor leden. Vraag gerust naar de mogelijkheden als de bijdrage een drempel is.',
+    agendaTitle: 'Agenda',
+    agenda: [
+      { date: '29 november', text: 'Clubtoernooi Oudeveen (meedoen is vrijwillig)' },
+      { date: '13 december', text: 'Evaluatiegesprekken talentgroep 8-10 jaar' },
+      { date: '3 januari', text: 'Nieuwjaarstraining voor alle groepen' },
+    ],
+    docsTitle: 'Documenten',
+    docs: ['Welkomstpakket nieuwe leden (voorbeeld)', 'Trainingsafspraken en gedragscode (voorbeeld)', 'Vakantierooster 2026-2027 (voorbeeld)'],
+    logout: 'Uitloggen',
+  },
+  en: {
+    title: 'Members',
+    description: 'Demo of a members area. No real login.',
+    banner:
+      'This is a demo. There is no real login: any name and password works, and nothing is stored or sent.',
+    loginTitle: 'Log in',
+    username: 'Username',
+    password: 'Password',
+    login: 'Log in (demo)',
+    noscript: 'This demo requires JavaScript.',
+    welcome: 'Welcome to the members area',
+    welcomeText: 'Here parents and judoka find practical information. All content is sample content.',
+    pricesTitle: 'Memberships and fees',
+    pricesText: 'The amounts below are only visible to members. Feel free to ask about the options if the fee is a barrier.',
+    agendaTitle: 'Calendar',
+    agenda: [
+      { date: '29 November', text: 'Club tournament Oudeveen (taking part is optional)' },
+      { date: '13 December', text: 'Progress reviews, talent group ages 8-10' },
+      { date: '3 January', text: 'New Year training for all groups' },
+    ],
+    docsTitle: 'Documents',
+    docs: ['Welcome pack for new members (sample)', 'Training agreements and code of conduct (sample)', 'Holiday schedule 2026-2027 (sample)'],
+    logout: 'Log out',
+  },
+}[lang];
+
+const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.members}>
+  <div class="container page-header">
+    <h1>{copy.title} <span class="badge demo">{t('demo.badge')}</span></h1>
+    <p class="demo-banner" role="note">{copy.banner}</p>
+  </div>
+
+  <div class="container">
+    <section class="card login" data-login aria-labelledby="login-title">
+      <h2 id="login-title">{copy.loginTitle}</h2>
+      <noscript><p>{copy.noscript}</p></noscript>
+      <form class="form" data-login-form>
+        <div class="field">
+          <label for="m-user">{copy.username}</label>
+          <input id="m-user" name="username" type="text" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="m-pass">{copy.password}</label>
+          <input id="m-pass" name="password" type="password" autocomplete="off" />
+        </div>
+        <div><button class="button" type="submit">{copy.login}</button></div>
+      </form>
+    </section>
+
+    <section class="members-area" data-members hidden aria-labelledby="welcome-title" tabindex="-1">
+      <div class="area-head">
+        <h2 id="welcome-title">{copy.welcome}</h2>
+        <button class="button button--ghost" type="button" data-logout>{copy.logout}</button>
+      </div>
+      <p>{copy.welcomeText}</p>
+
+      <h3>{copy.pricesTitle}</h3>
+      <p>{copy.pricesText}</p>
+      <div class="grid">
+        {memberships.map((m) => <MembershipCard item={m} lang={lang} forceShowPrice />)}
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>{copy.agendaTitle}</h3>
+          <dl class="agenda">
+            {
+              copy.agenda.map((a) => (
+                <div>
+                  <dt>{a.date}</dt>
+                  <dd>{a.text}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <div class="card">
+          <h3>{copy.docsTitle}</h3>
+          <ul class="docs">
+            {copy.docs.map((d) => <li>{d}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // Nep-login: er wordt niets gecontroleerd, opgeslagen of verstuurd.
+  const login = document.querySelector<HTMLElement>('[data-login]');
+  const form = document.querySelector<HTMLFormElement>('[data-login-form]');
+  const area = document.querySelector<HTMLElement>('[data-members]');
+  const logout = document.querySelector<HTMLButtonElement>('[data-logout]');
+  if (login && form && area && logout) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.reset();
+      login.hidden = true;
+      area.hidden = false;
+      area.focus();
+    });
+    logout.addEventListener('click', () => {
+      area.hidden = true;
+      login.hidden = false;
+      form.querySelector('input')?.focus();
+    });
+  }
+</script>
+
+<style>
+  .demo {
+    vertical-align: middle;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+  }
+  .demo-banner {
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-accent-tint);
+    border-left: 6px solid var(--color-accent);
+    border-radius: var(--radius);
+    font-weight: 600;
+    max-width: 48rem;
+  }
+  .login {
+    max-width: 28rem;
+  }
+  .login[hidden],
+  .members-area[hidden] {
+    display: none;
+  }
+  .members-area:focus {
+    outline: none;
+  }
+  .area-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .area-head h2 {
+    margin: 0;
+  }
+  .members-area h3 {
+    margin-top: var(--space-6);
+  }
+  .two-col {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+  }
+  .two-col h3 {
+    margin-top: 0;
+  }
+  .agenda {
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .agenda dt {
+    font-weight: 700;
+    color: var(--color-brand);
+  }
+  .agenda dd {
+    margin: 0;
+  }
+  .docs {
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+  @media (min-width: 48rem) {
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

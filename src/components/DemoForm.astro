@@ -1,0 +1,66 @@
+---
+/**
+ * Formulier dat niets verstuurt. Bij verzenden verschijnt een demo-melding.
+ * Zonder JavaScript gaat het formulier nergens heen (geen action) en blijft de melding zichtbaar boven het formulier.
+ */
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+  id: string;
+  submitLabel?: string;
+}
+
+const { lang, id, submitLabel } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<form class="form demo-form" id={id} novalidate data-demo-form>
+  <p class="form-intro">
+    <span class="badge">{t('demo.badge')}</span>
+    <span>{t('demo.notice')}</span>
+  </p>
+  <slot />
+  <div>
+    <button class="button" type="submit">{submitLabel ?? t('form.submit')}</button>
+  </div>
+  <p class="notice" role="status" aria-live="polite" hidden data-demo-notice>
+    {t('demo.notice')}
+  </p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-demo-form]').forEach((form) => {
+    const notice = form.querySelector<HTMLElement>('[data-demo-notice]');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // Gebruik de ingebouwde browsercontrole, zodat fouten bij het juiste veld worden gemeld.
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      if (notice) {
+        const text = notice.dataset.text ?? notice.textContent?.trim() ?? '';
+        notice.dataset.text = text;
+        notice.hidden = false;
+        // Leegmaken en opnieuw vullen, zodat schermlezers de melding ook bij een tweede keer voorlezen.
+        notice.textContent = '';
+        setTimeout(() => (notice.textContent = text), 50);
+      }
+      form.reset();
+    });
+  });
+</script>
+
+<style>
+  .form-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+</style>

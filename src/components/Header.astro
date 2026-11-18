@@ -1,0 +1,214 @@
+---
+import LanguageSwitch from './LanguageSwitch.astro';
+import { path, type Lang, type Alternates, type RouteKey } from '../i18n/routes';
+import { useTranslations } from '../i18n/utils';
+import type { UIKey } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  alternates: Alternates;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+
+const items: { key: RouteKey; label: UIKey }[] = [
+  { key: 'parents', label: 'nav.parents' },
+  { key: 'whyJudo', label: 'nav.whyJudo' },
+  { key: 'clubs', label: 'nav.clubs' },
+  { key: 'coaches', label: 'nav.coaches' },
+  { key: 'news', label: 'nav.news' },
+  { key: 'members', label: 'nav.members' },
+];
+
+const current = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const isCurrent = (href: string) => current === href;
+const isSection = (href: string) => href !== path('home', lang) && current.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="logo" href={path('home', lang)}>
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+        <circle cx="20" cy="20" r="19" fill="var(--color-brand)" />
+        <path d="M8 22h24" stroke="var(--color-accent)" stroke-width="5" stroke-linecap="round" />
+        <path d="M20 22l-6 9M20 22l6 9" stroke="var(--color-accent)" stroke-width="3.5" stroke-linecap="round" />
+      </svg>
+      <span class="logo-text">
+        <span class="logo-name">{t('site.name')}</span>
+        <span class="logo-tag">{t('site.tagline')}</span>
+      </span>
+    </a>
+
+    <div class="tools">
+      <LanguageSwitch lang={lang} alternates={alternates} />
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+          <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        {t('nav.menu')}
+      </button>
+    </div>
+
+    <nav id="site-nav" class="nav" aria-label={t('nav.label')}>
+      <ul>
+        {
+          items.map(({ key, label }) => {
+            const href = path(key, lang);
+            return (
+              <li>
+                <a
+                  href={href}
+                  aria-current={isCurrent(href) ? 'page' : isSection(href) ? 'true' : undefined}
+                >
+                  {t(label)}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Menu inklappen op mobiel. Zonder JavaScript blijft het menu gewoon zichtbaar.
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  if (header && toggle) {
+    header.classList.add('has-js');
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+    padding-block: var(--space-3);
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  .logo-mark {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+  }
+  .logo-text {
+    display: grid;
+    line-height: 1.2;
+  }
+  .logo-name {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: var(--text-lg);
+  }
+  .logo-tag {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .menu-toggle {
+    display: none;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    font: inherit;
+    font-weight: 600;
+    background: transparent;
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .nav {
+    flex-basis: 100%;
+  }
+  .nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+  }
+  .nav a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .nav a:hover {
+    background: var(--color-brand-tint);
+    color: var(--color-brand-dark);
+  }
+  .nav a[aria-current] {
+    color: var(--color-brand);
+    box-shadow: inset 0 -3px 0 var(--color-brand);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  /* Mobiel: menu inklapbaar (alleen als JavaScript werkt) */
+  @media (max-width: 68rem) {
+    .has-js .menu-toggle {
+      display: inline-flex;
+    }
+    .has-js .nav {
+      display: none;
+    }
+    .has-js:has(.menu-toggle[aria-expanded='true']) .nav {
+      display: block;
+    }
+    .nav ul {
+      flex-direction: column;
+      padding-bottom: var(--space-3);
+    }
+    .logo-tag {
+      display: none;
+    }
+  }
+
+  /* Desktop: menu in één regel naast het logo */
+  @media (min-width: 68.01rem) {
+    .bar {
+      flex-wrap: nowrap;
+    }
+    .nav {
+      flex-basis: auto;
+      order: 2;
+      margin-left: auto;
+    }
+    .tools {
+      order: 3;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+/*
+ * Huisstijl Top Judo Lindeweerd.
+ * Bewust bordeauxrood: duidelijk anders dan het lichte blauw van TJU.
+ * Contrast (WCAG 2.1 AA) gecontroleerd voor alle tekst/achtergrond-combinaties hieronder.
+ */
+:root {
+  /* Kleuren */
+  --color-brand: #8b1e2d;          /* bordeaux, wit erop: 8.9:1 */
+  --color-brand-dark: #6a1522;     /* hover/actief */
+  --color-brand-tint: #f6e7e9;     /* zachte achtergrond */
+  --color-accent: #d9a441;         /* oker, alleen als vlak met donkere tekst: 8.2:1 */
+  --color-accent-tint: #f8ecd2;
+  --color-bg: #faf7f2;             /* gebroken wit */
+  --color-surface: #ffffff;
+  --color-text: #22201d;           /* op bg: 15.6:1 */
+  --color-text-muted: #5a544c;     /* op bg: 7.1:1 */
+  --color-border: #ddd5c9;
+  --color-focus: #1d4ed8;          /* focusring, zichtbaar op alle vlakken */
+  --color-success-bg: #e6f2e8;
+  --color-success-text: #1e4d2b;
+
+  /* Typografie: systeemlettertypen, dus geen externe fonts */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
+  --text-sm: 0.875rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  --text-3xl: clamp(2.125rem, 1.6rem + 2.6vw, 3.5rem);
+  --leading: 1.6;
+
+  /* Ruimte */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  /* Vorm */
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+  --shadow: 0 1px 2px rgb(34 32 29 / 0.06), 0 4px 16px rgb(34 32 29 / 0.06);
+  --container: 72rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+}

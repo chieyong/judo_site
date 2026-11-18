@@ -1,0 +1,11 @@
+{
+  "name": "Talent Plus",
+  "order": 2,
+  "pricePerYear": 395,
+  "showPrice": false,
+  "includes": [
+    "Two extra talent sessions per week",
+    "Personal development plan",
+    "Training camp days during school holidays"
+  ]
+}

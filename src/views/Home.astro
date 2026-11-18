@@ -23,14 +23,14 @@ const copy = {
   nl: {
     description: 'Top Judo Lindeweerd helpt jonge judoka’s met talent verder, naast hun eigen judoclub.',
     eyebrow: 'Talentpartner voor jonge judoka’s · regio Lindeweerd',
-    title: 'Judoka’s laten groeien naar hun eigen topniveau',
-    lead: 'Extra training, kampen en wedstrijdcoaching voor talentvolle jeugd. Samen met zes judoclubs uit de regio, naast de eigen club.',
-    ctaParents: 'Voor ouders: zo werkt het',
-    ctaClubs: 'Vind een judoclub',
+    title: 'Van eerste judoles tot je eigen topniveau',
+    lead: 'Op zoek naar een leuke sport voor je kind? Vind een judoclub in de buurt. Heeft je kind talent en wil het meer? Dan helpen wij, samen met zes judoclubs uit de regio.',
+    ctaStart: 'Mijn kind wil judo proberen',
+    ctaTalent: 'Mijn kind heeft talent',
     lookingTitle: 'Waar ben je naar op zoek?',
     tiles: [
-      { icon: 'pin', title: 'Beginnen met judo', text: 'Waarom judo, en een club bij jou in de buurt.', key: 'whyJudo' },
-      { icon: 'star', title: 'Mijn kind heeft talent', text: 'Zo werkt instromen, en wat het lidmaatschap inhoudt.', key: 'parents' },
+      { icon: 'pin', title: 'Beginnen met judo', text: 'Waarom judo, en een club bij jou in de buurt.', key: 'start' },
+      { icon: 'star', title: 'Mijn kind heeft talent', text: 'Zo werkt instromen, en wat het lidmaatschap inhoudt.', key: 'talent' },
       { icon: 'lock', title: 'Ik ben lid', text: 'Rooster, wedstrijden en documenten.', key: 'members' },
       { icon: 'people', title: 'Wie zijn wij?', text: 'Maak kennis met onze trainers, begeleiders en het bestuur.', key: 'team' },
     ],
@@ -56,14 +56,14 @@ const copy = {
   en: {
     description: 'Top Judo Lindeweerd helps talented young judoka progress, alongside their own judo club.',
     eyebrow: 'Talent partner for young judoka · Lindeweerd region',
-    title: 'Helping judoka grow to their own top level',
-    lead: 'Extra training, camps and competition coaching for talented young people. Together with six judo clubs in the region, alongside their own club.',
-    ctaParents: 'For parents: how it works',
-    ctaClubs: 'Find a judo club',
+    title: 'From your first judo lesson to your own top level',
+    lead: 'Looking for a fun sport for your child? Find a judo club nearby. Does your child have talent and want more? Then we can help, together with six judo clubs in the region.',
+    ctaStart: 'My child wants to try judo',
+    ctaTalent: 'My child has talent',
     lookingTitle: 'What are you looking for?',
     tiles: [
-      { icon: 'pin', title: 'Getting started with judo', text: 'Why judo, and a club near you.', key: 'whyJudo' },
-      { icon: 'star', title: 'My child has talent', text: 'How joining works, and what membership includes.', key: 'parents' },
+      { icon: 'pin', title: 'Getting started with judo', text: 'Why judo, and a club near you.', key: 'start' },
+      { icon: 'star', title: 'My child has talent', text: 'How joining works, and what membership includes.', key: 'talent' },
       { icon: 'lock', title: 'I am a member', text: 'Schedule, competitions and documents.', key: 'members' },
       { icon: 'people', title: 'Who are we?', text: 'Meet our coaches, support staff and the board.', key: 'team' },
     ],
@@ -97,8 +97,8 @@ const clubs = (await getLocalized('clubs', lang)).sort((a, b) => a.data.name.loc
 <Base lang={lang} title={t('site.name')} description={copy.description} alternates={routes.home}>
   <PageHero large eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead}>
     <Fragment slot="actions">
-      <a class="button button--accent" href={path('parents', lang)}>{copy.ctaParents}</a>
-      <a class="button button--on-dark" href={path('clubs', lang)}>{copy.ctaClubs}</a>
+      <a class="button button--accent" href={path('start', lang)}>{copy.ctaStart}</a>
+      <a class="button button--on-dark" href={path('talent', lang)}>{copy.ctaTalent}</a>
     </Fragment>
   </PageHero>
 

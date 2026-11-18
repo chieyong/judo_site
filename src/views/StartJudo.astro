@@ -11,9 +11,10 @@ const { lang } = Astro.props;
 
 const copy = {
   nl: {
+    pageTitle: 'Beginnen met judo',
     title: 'Waarom judo?',
     description: 'Wat judo een kind geeft, en waarom het een goede tweede sport is.',
-    eyebrow: 'Lindeweerd, judostad aan de rivier',
+    eyebrow: 'Beginnen met judo',
     lead: 'Je leert vallen, opstaan en de ander respecteren. Judo maakt kinderen sterk, op de mat en daarbuiten.',
     givesTitle: 'Wat judo een kind geeft',
     gives: [
@@ -40,9 +41,10 @@ const copy = {
     tryParents: 'Mijn kind heeft talent',
   },
   en: {
+    pageTitle: 'Getting started with judo',
     title: 'Why judo?',
     description: 'What judo gives a child, and why it is a great second sport.',
-    eyebrow: 'Lindeweerd, judo town on the river',
+    eyebrow: 'Getting started with judo',
     lead: 'You learn to fall, get back up and respect others. Judo makes children strong, on the mat and off it.',
     givesTitle: 'What judo gives a child',
     gives: [
@@ -71,7 +73,7 @@ const copy = {
 }[lang];
 ---
 
-<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.whyJudo}>
+<Base lang={lang} title={copy.pageTitle} description={copy.description} alternates={routes.start}>
   <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} />
 
   <section class="section" aria-labelledby="gives-title">
@@ -135,7 +137,7 @@ const copy = {
       <p>{copy.tryText}</p>
       <div class="actions">
         <a class="button button--accent" href={path('clubs', lang)}>{copy.tryCta}</a>
-        <a class="button button--on-dark" href={path('parents', lang)}>{copy.tryParents}</a>
+        <a class="button button--on-dark" href={path('talent', lang)}>{copy.tryParents}</a>
       </div>
     </div>
   </section>

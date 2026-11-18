@@ -102,7 +102,7 @@ Elk lidmaatschap heeft een **Prijs per jaar** en een vinkje **Prijs publiek tone
 
 - **Uit**: de publieke site toont alleen wat het lidmaatschap inhoudt, met de tekst
   *“De kosten bespreken we na het gesprek met de trainer.”* Het bedrag staat alleen in de ledenomgeving.
-- **Aan**: het bedrag staat ook op de publieke pagina “Voor ouders”. Zet dit alleen aan als het bestuur daartoe besluit.
+- **Aan**: het bedrag staat ook op de publieke pagina “Talentprogramma”. Zet dit alleen aan als het bestuur daartoe besluit.
 
 > Let op: de ledenomgeving is in deze proof of concept een **demo met nep-login**. Omdat de site
 > statisch is, staan de bedragen technisch gewoon in de pagina. Voor een echte ledenomgeving is een

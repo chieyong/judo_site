@@ -31,3 +31,24 @@
   from = "/en/for-coaches/*"
   to = "/en/team/"
   status = 301
+
+# Oude adressen na de nieuwe indeling (Beginnen met judo / Talentprogramma)
+[[redirects]]
+  from = "/voor-ouders/*"
+  to = "/talentprogramma/"
+  status = 301
+
+[[redirects]]
+  from = "/waarom-judo/*"
+  to = "/beginnen-met-judo/"
+  status = 301
+
+[[redirects]]
+  from = "/en/for-parents/*"
+  to = "/en/talent-programme/"
+  status = 301
+
+[[redirects]]
+  from = "/en/why-judo/*"
+  to = "/en/getting-started/"
+  status = 301

@@ -10,9 +10,9 @@ export const langs = Object.keys(languages) as Lang[];
 
 export const routes = {
   home: { nl: '/', en: '/en/' },
-  parents: { nl: '/voor-ouders/', en: '/en/for-parents/' },
-  whyJudo: { nl: '/waarom-judo/', en: '/en/why-judo/' },
+  start: { nl: '/beginnen-met-judo/', en: '/en/getting-started/' },
   clubs: { nl: '/vind-een-club/', en: '/en/find-a-club/' },
+  talent: { nl: '/talentprogramma/', en: '/en/talent-programme/' },
   team: { nl: '/team/', en: '/en/team/' },
   news: { nl: '/nieuws/', en: '/en/news/' },
   members: { nl: '/leden/', en: '/en/members/' },

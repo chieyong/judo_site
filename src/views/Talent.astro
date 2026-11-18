@@ -16,9 +16,9 @@ const t = useTranslations(lang);
 const copy = {
   nl: {
     title: 'Talent op de mat? Geef het meer uitdaging.',
-    pageTitle: 'Voor ouders',
+    pageTitle: 'Talentprogramma',
     description: 'Hoe werkt het talenttraject, past het bij uw kind, en wat houdt een lidmaatschap in?',
-    eyebrow: 'Voor ouders',
+    eyebrow: 'Talentprogramma · voor ouders van een talentvolle judoka',
     lead: 'Top Judo Lindeweerd geeft talentvolle judoka’s uit de regio extra trainingen, kampen en wedstrijdcoaching. Naast hun eigen club, niet in plaats van.',
     ctaSteps: 'Zo werkt het',
     ctaClubs: 'Vind een club',
@@ -67,9 +67,9 @@ const copy = {
   },
   en: {
     title: 'Talent on the mat? Give it more of a challenge.',
-    pageTitle: 'For parents',
+    pageTitle: 'Talent programme',
     description: 'How the talent pathway works, whether it suits your child, and what membership includes.',
-    eyebrow: 'For parents',
+    eyebrow: 'Talent programme · for parents of a talented judoka',
     lead: 'Top Judo Lindeweerd gives talented judoka from the region extra training, camps and competition coaching. Alongside their own club, not instead of it.',
     ctaSteps: 'How it works',
     ctaClubs: 'Find a club',
@@ -129,7 +129,7 @@ const pillarIcons = [
 const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base lang={lang} title={copy.pageTitle} description={copy.description} alternates={routes.parents}>
+<Base lang={lang} title={copy.pageTitle} description={copy.description} alternates={routes.talent}>
   <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead}>
     <Fragment slot="actions">
       <a class="button button--accent" href="#zo-werkt-het">{copy.ctaSteps}</a>
@@ -257,7 +257,7 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
       <p>{copy.finalText}</p>
       <div class="actions">
         <a class="button button--accent" href={path('clubs', lang)}>{t('nav.clubs')}</a>
-        <a class="button button--ghost" href={path('whyJudo', lang)}>{t('nav.whyJudo')}</a>
+        <a class="button button--ghost" href={path('start', lang)}>{t('nav.start')}</a>
       </div>
     </div>
   </section>

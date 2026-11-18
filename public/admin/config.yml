@@ -72,7 +72,7 @@ collections:
   - name: trainingen
     label: Trainingen
     label_singular: Training
-    description: Het trainingsrooster op de pagina "Voor ouders".
+    description: Het trainingsrooster op de pagina "Talentprogramma".
     folder: src/content/trainingen
     format: json
     extension: json
@@ -131,7 +131,7 @@ collections:
     label: Lidmaatschappen
     label_singular: Lidmaatschap
     description: >-
-      Lidmaatschappen op de pagina "Voor ouders". Bedragen staan standaard alleen in de ledenomgeving.
+      Lidmaatschappen op de pagina "Talentprogramma". Bedragen staan standaard alleen in de ledenomgeving.
       Zet "Prijs publiek tonen" alleen aan als het bestuur dat heeft besloten.
     folder: src/content/lidmaatschappen
     format: json

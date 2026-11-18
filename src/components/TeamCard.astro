@@ -1,0 +1,84 @@
+---
+import type { Localized } from '../i18n/utils';
+
+interface Props {
+  member: Localized<'team'>;
+}
+
+const { member } = Astro.props;
+const { name, role, credentials, bio, photo } = member.data;
+const initials = name
+  .split(/\s+/)
+  .filter((part) => /^[A-Z]/.test(part))
+  .map((part) => part[0])
+  .slice(0, 2)
+  .join('');
+---
+
+<article class="member" lang={member.isFallback ? member.contentLang : undefined}>
+  {
+    photo ? (
+      <img class="avatar" src={photo} alt="" width="96" height="96" loading="lazy" />
+    ) : (
+      <span class="avatar initials" aria-hidden="true">
+        {initials}
+      </span>
+    )
+  }
+  <div>
+    <h3>{name}</h3>
+    <p class="role">{role}</p>
+    {credentials && <p class="credentials">{credentials}</p>}
+    {bio && <p class="bio">{bio}</p>}
+  </div>
+</article>
+
+<style>
+  .member {
+    display: flex;
+    gap: var(--space-5);
+    align-items: flex-start;
+    height: 100%;
+    padding: var(--space-6) 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-brand-tint);
+  }
+  :global(.section--tint) .member {
+    background: var(--color-surface);
+  }
+  .avatar {
+    flex: none;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .initials {
+    display: grid;
+    place-items: center;
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+    font-weight: 700;
+    font-size: 1.375rem;
+    letter-spacing: 0.02em;
+  }
+  h3 {
+    font-size: var(--text-lg);
+    margin: 0 0 var(--space-1);
+  }
+  .role {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-brand-mid);
+  }
+  .credentials {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .bio {
+    margin: var(--space-3) 0 0;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+</style>

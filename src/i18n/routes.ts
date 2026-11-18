@@ -13,7 +13,7 @@ export const routes = {
   parents: { nl: '/voor-ouders/', en: '/en/for-parents/' },
   whyJudo: { nl: '/waarom-judo/', en: '/en/why-judo/' },
   clubs: { nl: '/vind-een-club/', en: '/en/find-a-club/' },
-  coaches: { nl: '/trainers/', en: '/en/for-coaches/' },
+  team: { nl: '/team/', en: '/en/team/' },
   news: { nl: '/nieuws/', en: '/en/news/' },
   members: { nl: '/leden/', en: '/en/members/' },
 } as const satisfies Record<string, Record<Lang, string>>;

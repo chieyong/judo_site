@@ -51,4 +51,19 @@ const lidmaatschappen = defineCollection({
   }),
 });
 
-export const collections = { nieuws, clubs, trainingen, lidmaatschappen };
+const team = defineCollection({
+  loader: glob({ pattern: '{nl,en}/**/*.json', base: './src/content/team' }),
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    // staff = technische staf, support = begeleiding, board = bestuur
+    group: z.enum(['staff', 'support', 'board']),
+    order: z.number().default(0),
+    credentials: z.string().optional().default(''),
+    bio: z.string().optional().default(''),
+    // Alleen gebruiken met toestemming. Zonder foto tonen we initialen.
+    photo: z.string().optional(),
+  }),
+});
+
+export const collections = { nieuws, clubs, trainingen, lidmaatschappen, team };

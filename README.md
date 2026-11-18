@@ -5,7 +5,7 @@ Doel: laten zien dat een moderne, snelle en goed te beheren clubsite met AI te b
 Alle namen, clubs en gegevens zijn verzonnen. Er staan geen echte persoonsgegevens in.
 
 - **Astro 5** (statische site), gewone CSS met CSS-variabelen
-- **Decap CMS** op `/admin` voor nieuws, clubs, trainingen en lidmaatschappen
+- **Decap CMS** op `/admin` voor nieuws, clubs, trainingen, lidmaatschappen en het team
 - **Tweetalig**: Nederlands op `/`, Engels op `/en/`
 - **Geen tracking, geen cookies**, geen externe scripts op de publieke site
 - Lettertype **Open Sans**, zelf gehost via `@fontsource/open-sans` (geen verbinding met Google)
@@ -68,7 +68,7 @@ Elke wijziging in het CMS wordt een commit in GitHub. Netlify bouwt de site dan 
 
 1. Ga naar `/admin/` op de site (bijvoorbeeld `https://<jouw-site>.netlify.app/admin/`).
 2. Klik op **Inloggen met Netlify Identity** en vul je e-mailadres en wachtwoord in.
-3. Je ziet nu het overzicht met **Nieuws**, **Clubs**, **Trainingen** en **Lidmaatschappen**.
+3. Je ziet nu het overzicht met **Nieuws**, **Clubs**, **Trainingen**, **Team** en **Lidmaatschappen**.
 
 ### Een nieuwsbericht plaatsen
 
@@ -89,6 +89,12 @@ Elke wijziging in het CMS wordt een commit in GitHub. Netlify bouwt de site dan 
 
 Laat je de Engelse versie leeg? Dan toont de Engelse site de Nederlandse tekst, met de melding
 *“This text has not been translated yet.”*. Je hoeft dus niet alles meteen te vertalen.
+
+### Teamleden
+
+Onder **Team** beheer je de trainers, begeleiders en bestuursleden op de pagina “Ons team”.
+Kies bij **Groep** of iemand bij de technische staf, de begeleiding of het bestuur hoort.
+Een **Foto** is optioneel: zonder foto toont de site de initialen. Plaats alleen een foto als de persoon daar toestemming voor heeft gegeven.
 
 ### Prijzen van lidmaatschappen
 

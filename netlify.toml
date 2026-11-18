@@ -20,3 +20,14 @@
   for = "/admin/*"
   [headers.values]
     Cache-Control = "no-cache"
+
+# Oude adressen van de trainerspagina doorsturen naar de teampagina
+[[redirects]]
+  from = "/trainers/*"
+  to = "/team/"
+  status = 301
+
+[[redirects]]
+  from = "/en/for-coaches/*"
+  to = "/en/team/"
+  status = 301

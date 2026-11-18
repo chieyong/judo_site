@@ -1,0 +1,217 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import TeamCard from '../components/TeamCard.astro';
+import DemoForm from '../components/DemoForm.astro';
+import { getLocalized, useTranslations } from '../i18n/utils';
+import { routes, type Lang } from '../i18n/routes';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const copy = {
+  nl: {
+    title: 'Ons team',
+    description: 'Maak kennis met de trainers, begeleiders en het bestuur van Top Judo Lindeweerd.',
+    eyebrow: 'Wie zijn wij?',
+    heroTitle: 'De mensen achter Top Judo Lindeweerd',
+    lead: 'Gediplomeerde trainers, deskundige begeleiders en een bestuur van ouders en vrijwilligers. Samen zorgen we dat talent veilig en met plezier kan groeien.',
+    ctaContact: 'Neem contact op',
+    staffTitle: 'Technische staf',
+    staffIntro: 'Onze trainers zijn gediplomeerd en hebben zelf jarenlang op de mat gestaan.',
+    supportTitle: 'Begeleiding',
+    supportIntro: 'Een talent groeit niet alleen op de mat. Deze mensen helpen bij voeding, herstel en welzijn.',
+    boardTitle: 'Bestuur',
+    boardIntro: 'Het bestuur bestaat uit vrijwilligers en is verantwoordelijk voor beleid, financiën en de samenwerking met de partnerclubs.',
+    safeTitle: 'Veilig sporten',
+    safe: [
+      { title: 'VOG voor iedereen', text: 'Alle trainers, begeleiders en bestuursleden hebben een Verklaring Omtrent het Gedrag.' },
+      { title: 'Gediplomeerd', text: 'Elke trainer heeft minimaal een trainersdiploma op niveau 3 en volgt elk jaar bijscholing.' },
+      { title: 'Gedragscode', text: 'Voor trainers, judoka’s en ouders gelden duidelijke afspraken over omgang en respect.' },
+      { title: 'Vertrouwenscontactpersoon', text: 'Een onafhankelijk aanspreekpunt, buiten de trainers om.' },
+    ],
+    contactTitle: 'Contact',
+    contactIntro: 'Een vraag over het talentprogramma, het lidmaatschap of iets anders? Stuur ons een bericht.',
+    contactMail: 'Liever mailen? info@topjudo-lindeweerd.example',
+    coachNote: 'Ben je trainer bij een partnerclub en zie je een talent? Mail de technisch coördinator: techniek@topjudo-lindeweerd.example',
+    name: 'Naam',
+    email: 'E-mailadres',
+    topic: 'Onderwerp',
+    topics: ['Talentprogramma', 'Lidmaatschap', 'Vrijwilliger worden', 'Iets anders'],
+    message: 'Je vraag',
+    send: 'Bericht versturen',
+    volunteerTitle: 'Word vrijwilliger',
+    volunteerText: 'We zoeken altijd hulp bij toernooien, kampen en de organisatie. Een paar uur per maand maakt al verschil.',
+  },
+  en: {
+    title: 'Our team',
+    description: 'Meet the coaches, support staff and board of Top Judo Lindeweerd.',
+    eyebrow: 'Who are we?',
+    heroTitle: 'The people behind Top Judo Lindeweerd',
+    lead: 'Qualified coaches, expert support staff and a board of parents and volunteers. Together we make sure talent can grow safely and with enjoyment.',
+    ctaContact: 'Get in touch',
+    staffTitle: 'Technical staff',
+    staffIntro: 'Our coaches are qualified and have spent many years on the mat themselves.',
+    supportTitle: 'Support',
+    supportIntro: 'Talent does not only grow on the mat. These people help with nutrition, recovery and wellbeing.',
+    boardTitle: 'Board',
+    boardIntro: 'The board consists of volunteers and is responsible for policy, finances and the partnership with the clubs.',
+    safeTitle: 'Safe sport',
+    safe: [
+      { title: 'Background checks', text: 'All coaches, support staff and board members hold a certificate of conduct (VOG).' },
+      { title: 'Qualified', text: 'Every coach holds at least a level 3 coaching qualification and does yearly training.' },
+      { title: 'Code of conduct', text: 'Clear agreements on behaviour and respect apply to coaches, judoka and parents.' },
+      { title: 'Confidential contact', text: 'An independent point of contact, outside the coaching staff.' },
+    ],
+    contactTitle: 'Contact',
+    contactIntro: 'A question about the talent programme, membership or anything else? Send us a message.',
+    contactMail: 'Prefer email? info@topjudo-lindeweerd.example',
+    coachNote: 'Are you a coach at a partner club and have you spotted a talent? Email the technical coordinator: techniek@topjudo-lindeweerd.example',
+    name: 'Name',
+    email: 'Email address',
+    topic: 'Topic',
+    topics: ['Talent programme', 'Membership', 'Volunteering', 'Something else'],
+    message: 'Your question',
+    send: 'Send message',
+    volunteerTitle: 'Become a volunteer',
+    volunteerText: 'We are always looking for help at tournaments, camps and with the organisation. A few hours a month already makes a difference.',
+  },
+}[lang];
+
+const members = (await getLocalized('team', lang)).sort((a, b) => a.data.order - b.data.order);
+const groups = [
+  { key: 'staff', title: copy.staffTitle, intro: copy.staffIntro, tint: false },
+  { key: 'support', title: copy.supportTitle, intro: copy.supportIntro, tint: true },
+  { key: 'board', title: copy.boardTitle, intro: copy.boardIntro, tint: false },
+] as const;
+const req = t('form.required');
+---
+
+<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.team}>
+  <PageHero eyebrow={copy.eyebrow} title={copy.heroTitle} lead={copy.lead}>
+    <Fragment slot="actions">
+      <a class="button button--accent" href="#contact">{copy.ctaContact}</a>
+    </Fragment>
+  </PageHero>
+
+  {
+    groups.map((g) => {
+      const list = members.filter((m) => m.data.group === g.key);
+      if (list.length === 0) return null;
+      return (
+        <section class:list={['section', { 'section--tint': g.tint }]} aria-labelledby={`${g.key}-title`}>
+          <div class="container">
+            <div class="section-intro">
+              <h2 id={`${g.key}-title`}>{g.title}</h2>
+              <p>{g.intro}</p>
+            </div>
+            <ul class="plain-list members">
+              {list.map((m) => (
+                <li>
+                  <TeamCard member={m} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <section class="section section--tint" aria-labelledby="safe-title">
+    <div class="container">
+      <h2 id="safe-title">{copy.safeTitle}</h2>
+      <ul class="plain-list grid">
+        {
+          copy.safe.map((s) => (
+            <li class="card">
+              <svg class="shield" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" />
+                <path d="M9 12l2 2 4-4" />
+              </svg>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="contact" aria-labelledby="contact-title">
+    <div class="container contact">
+      <div>
+        <div class="section-intro">
+          <h2 id="contact-title">{copy.contactTitle}</h2>
+          <p>{copy.contactIntro}</p>
+        </div>
+        <DemoForm lang={lang} id="contact-form" submitLabel={copy.send}>
+          <div class="field">
+            <label for="c-name">{copy.name} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+            <input id="c-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="c-email">{copy.email} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+            <input id="c-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="c-topic">{copy.topic}</label>
+            <select id="c-topic" name="topic">
+              {copy.topics.map((o) => <option>{o}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="c-message">{copy.message} <span class="required" aria-hidden="true">*</span><span class="visually-hidden">({req})</span></label>
+            <textarea id="c-message" name="message" rows="4" required></textarea>
+          </div>
+        </DemoForm>
+      </div>
+      <aside class="side">
+        <div class="card">
+          <h3>{copy.volunteerTitle}</h3>
+          <p>{copy.volunteerText}</p>
+        </div>
+        <p class="muted small">{copy.contactMail}</p>
+        <p class="muted small">{copy.coachNote}</p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .members {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  }
+  .shield {
+    color: var(--color-brand-mid);
+    margin-bottom: var(--space-3);
+  }
+  .contact {
+    display: grid;
+    gap: var(--space-7);
+  }
+  .side {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+  .small {
+    font-size: var(--text-sm);
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  @media (min-width: 56rem) {
+    .contact {
+      grid-template-columns: 3fr 2fr;
+    }
+    .side {
+      padding-top: 6.5rem;
+    }
+  }
+</style>

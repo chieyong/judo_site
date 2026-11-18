@@ -98,6 +98,35 @@ collections:
       - { label: Tijd, name: time, widget: string, hint: 'Bijvoorbeeld: 16:30 - 17:45', i18n: duplicate }
       - { label: Locatie, name: location, widget: string, i18n: duplicate }
 
+  - name: team
+    label: Team
+    label_singular: Teamlid
+    description: Trainers, begeleiding en bestuur op de pagina "Ons team".
+    folder: src/content/team
+    format: json
+    extension: json
+    create: true
+    slug: '{{slug}}'
+    identifier_field: name
+    i18n: true
+    summary: '{{name}} ({{role}})'
+    sortable_fields: [order, name]
+    fields:
+      - { label: Naam, name: name, widget: string, i18n: duplicate }
+      - { label: Functie, name: role, widget: string, hint: 'Bijvoorbeeld: Hoofdtrainer', i18n: true }
+      - label: Groep
+        name: group
+        widget: select
+        i18n: duplicate
+        options:
+          - { label: Technische staf, value: staff }
+          - { label: Begeleiding, value: support }
+          - { label: Bestuur, value: board }
+      - { label: Volgorde, name: order, widget: number, value_type: int, default: 10, hint: 'Laagste nummer staat bovenaan.', i18n: duplicate }
+      - { label: Diploma's en graad, name: credentials, widget: string, required: false, hint: 'Bijvoorbeeld: Judo 3e dan · Trainer-coach 3', i18n: true }
+      - { label: Korte tekst, name: bio, widget: text, required: false, i18n: true }
+      - { label: Foto, name: photo, widget: image, required: false, hint: 'Alleen met toestemming van de persoon. Zonder foto tonen we de initialen.', i18n: duplicate }
+
   - name: lidmaatschappen
     label: Lidmaatschappen
     label_singular: Lidmaatschap

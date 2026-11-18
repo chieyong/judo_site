@@ -23,7 +23,7 @@ const price = priceVisible
   : null;
 ---
 
-<article class="membership card" lang={item.isFallback ? item.contentLang : undefined}>
+<article class="membership card card--outline" lang={item.isFallback ? item.contentLang : undefined}>
   <h3>{name}</h3>
   {
     price && (
@@ -44,7 +44,8 @@ const price = priceVisible
   }
   .price {
     font-size: var(--text-xl);
-    color: var(--color-brand);
+    color: var(--color-brand) !important;
+    margin-bottom: var(--space-3);
   }
   .price span {
     font-size: var(--text-sm);
@@ -52,16 +53,20 @@ const price = priceVisible
   }
   .includes-label {
     font-weight: 700;
+    font-size: var(--text-sm) !important;
+    color: var(--color-brand) !important;
     margin-bottom: var(--space-2);
   }
   .includes {
     padding-left: 1.25rem;
     margin: 0;
+    font-size: 1rem;
+    color: var(--color-text-muted);
   }
   .includes li + li {
     margin-top: var(--space-1);
   }
   .includes li::marker {
-    color: var(--color-brand);
+    color: var(--color-brand-mid);
   }
 </style>

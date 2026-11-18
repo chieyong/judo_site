@@ -1,33 +1,39 @@
 /*
- * Huisstijl Top Judo Lindeweerd.
- * Bewust bordeauxrood: duidelijk anders dan het lichte blauw van TJU.
+ * Huisstijl Top Judo Lindeweerd, gebaseerd op de ontwerp-mock-up (blauw met oranje accent).
  * Contrast (WCAG 2.1 AA) gecontroleerd voor alle tekst/achtergrond-combinaties hieronder.
  */
 :root {
   /* Kleuren */
-  --color-brand: #8b1e2d;          /* bordeaux, wit erop: 8.9:1 */
-  --color-brand-dark: #6a1522;     /* hover/actief */
-  --color-brand-tint: #f6e7e9;     /* zachte achtergrond */
-  --color-accent: #d9a441;         /* oker, alleen als vlak met donkere tekst: 8.2:1 */
-  --color-accent-tint: #f8ecd2;
-  --color-bg: #faf7f2;             /* gebroken wit */
+  --color-brand: #1b3f73;          /* donkerblauw: tekst en vlakken, wit erop 10.5:1 */
+  --color-brand-dark: #142f57;     /* footer, hover */
+  --color-brand-mid: #2c6db6;      /* iconen, labels: op wit 5.2:1 */
+  --color-brand-tint: #f2f5fa;     /* lichte achtergrond */
+  --color-on-brand: #ffffff;
+  --color-on-brand-muted: #e4eaf5; /* op donkerblauw 8.4:1 */
+  --color-on-brand-soft: #c9d6ec;  /* op donkerblauw 6.4:1 */
+  --color-accent: #e89a2c;         /* oranje, alleen als vlak met donkere tekst */
+  --color-on-accent: #1b2440;      /* op oranje 7.0:1 */
+  --color-accent-tint: #fdf1df;
+  --color-accent-text: #6b4304;    /* op accent-tint 8.0:1 */
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
-  --color-text: #22201d;           /* op bg: 15.6:1 */
-  --color-text-muted: #5a544c;     /* op bg: 7.1:1 */
-  --color-border: #ddd5c9;
-  --color-focus: #1d4ed8;          /* focusring, zichtbaar op alle vlakken */
+  --color-text: #1b3f73;
+  --color-text-muted: #4a5368;     /* op wit 7.9:1, op tint 7.3:1 */
+  --color-border: #dde3ee;
+  --color-border-strong: #8a97ad;  /* invoervelden: 3:1 tegen wit */
+  --color-focus: #e89a2c;
   --color-success-bg: #e6f2e8;
   --color-success-text: #1e4d2b;
 
-  /* Typografie: systeemlettertypen, dus geen externe fonts */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, Georgia, serif;
-  --text-sm: 0.875rem;
+  /* Typografie: Open Sans, zelf gehost (geen verbinding met Google) */
+  --font-sans: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-heading: var(--font-sans);
+  --text-sm: 0.9375rem;
   --text-base: 1.0625rem;
   --text-lg: 1.25rem;
-  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
-  --text-3xl: clamp(2.125rem, 1.6rem + 2.6vw, 3.5rem);
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+  --text-3xl: clamp(2.125rem, 1.5rem + 3vw, 3.5rem);
   --leading: 1.6;
 
   /* Ruimte */
@@ -38,12 +44,12 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: 4.5rem;
+  --space-8: 5rem;
 
   /* Vorm */
   --radius: 0.5rem;
-  --radius-lg: 1rem;
-  --shadow: 0 1px 2px rgb(34 32 29 / 0.06), 0 4px 16px rgb(34 32 29 / 0.06);
-  --container: 72rem;
-  --gutter: clamp(1rem, 4vw, 2rem);
+  --radius-lg: 0.75rem;
+  --shadow: none;
+  --container: 70rem;
+  --gutter: 1.5rem;
 }

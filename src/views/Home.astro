@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import NewsCard from '../components/NewsCard.astro';
 import { getLocalized, useTranslations } from '../i18n/utils';
 import { path, routes, type Lang } from '../i18n/routes';
@@ -11,91 +12,108 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+const icons = {
+  pin: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle>',
+  star: '<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"></path>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path>',
+  whistle: '<path d="M4 14a5 5 0 1 0 10 0V9h7V6H9a5 5 0 0 0-5 5z"></path><circle cx="9" cy="14" r="1.5"></circle>',
+};
+
 const copy = {
   nl: {
-    description: 'Top Judo Lindeweerd helpt jonge judoka’s met talent een stap verder, samen met hun eigen club.',
-    heroTitle: 'Meer uit judo halen, zonder je club te verlaten',
-    heroLead:
-      'Top Judo Lindeweerd is een samenwerking van zes judoclubs. Kinderen met talent en plezier in judo krijgen bij ons extra training en begeleiding, naast hun eigen club.',
-    ctaParents: 'Informatie voor ouders',
-    ctaClubs: 'Vind een club',
-    whoTitle: 'Wie we zijn',
-    whoText:
-      'Wij zijn trainers, vrijwilligers en ouders uit Lindeweerd en omgeving. Samen zorgen we dat talentvolle judoka’s goed begeleid worden, dicht bij huis.',
-    partnerTitle: 'Wat is een talentpartner?',
-    partnerText:
-      'Een talentpartner is een judoclub die met ons samenwerkt. De trainer van de club herkent talent en kan een judoka voordragen. Het kind blijft lid van de eigen club en traint daarnaast extra bij ons.',
-    points: [
-      { title: 'Eigen club blijft thuisbasis', text: 'Vriendjes, trainer en vertrouwde mat blijven gewoon.' },
-      { title: 'Extra training op maat', text: 'Kleine groepen, gericht op techniek, plezier en zelfvertrouwen.' },
-      { title: 'Stap voor stap', text: 'Geen druk: elk kind groeit in zijn eigen tempo.' },
+    description: 'Top Judo Lindeweerd helpt jonge judoka’s met talent verder, naast hun eigen judoclub.',
+    eyebrow: 'Talentpartner voor jonge judoka’s · regio Lindeweerd',
+    title: 'Judoka’s laten groeien naar hun eigen topniveau',
+    lead: 'Extra training, kampen en wedstrijdcoaching voor talentvolle jeugd. Samen met zes judoclubs uit de regio, naast de eigen club.',
+    ctaParents: 'Voor ouders: zo werkt het',
+    ctaClubs: 'Vind een judoclub',
+    lookingTitle: 'Waar ben je naar op zoek?',
+    tiles: [
+      { icon: 'pin', title: 'Beginnen met judo', text: 'Waarom judo, en een club bij jou in de buurt.', key: 'whyJudo' },
+      { icon: 'star', title: 'Mijn kind heeft talent', text: 'Zo werkt instromen, en wat het lidmaatschap inhoudt.', key: 'parents' },
+      { icon: 'lock', title: 'Ik ben lid', text: 'Rooster, wedstrijden en documenten.', key: 'members' },
+      { icon: 'whistle', title: 'Ik ben clubtrainer', text: 'Draag een talent voor en lees wat je club terugkrijgt.', key: 'coaches' },
     ],
-    ctaTitle: 'Heeft uw kind talent voor judo?',
-    ctaText: 'Lees hoe het traject werkt, of uw kind erbij past en wat het lidmaatschap inhoudt.',
-    ctaButton: 'Naar de pagina voor ouders',
+    layersTitle: 'Wat is een talentpartner?',
+    layersIntro: 'Judo heeft drie lagen. Top Judo Lindeweerd is de middelste: de brug tussen de club en de top.',
+    layers: [
+      { label: 'Laag 1', title: 'Je eigen judoclub', text: 'Voor iedereen. Hier leer je judo en haal je je banden.' },
+      { label: 'Laag 2', title: 'Talentpartner: Top Judo Lindeweerd', text: 'Extra training en coaching voor talenten uit de regio.', highlight: true },
+      { label: 'Laag 3', title: 'Nationale top', text: 'De nationale selecties van de judobond.' },
+    ],
+    stats: [
+      { value: '2019', label: 'opgericht' },
+      { value: '6', label: 'partnerclubs' },
+      { value: '±40', label: 'talentvolle judoka’s' },
+      { value: '9–21', label: 'jaar' },
+    ],
+    statsNote: 'Fictieve cijfers voor deze demo.',
+    clubsTitle: 'Onze partnerclubs',
+    clubsIntro: 'Elke judoka in het talentprogramma begint bij een van deze clubs. Op zoek naar judo voor je kind? Begin hier.',
+    clubsCta: 'Vind een club bij jou in de buurt',
+    coachesCta: 'Trainer bij een club? Draag een talent voor',
   },
   en: {
-    description: 'Top Judo Lindeweerd helps talented young judoka take the next step, together with their own club.',
-    heroTitle: 'Get more out of judo, without leaving your club',
-    heroLead:
-      'Top Judo Lindeweerd is a partnership of six judo clubs. Children with talent and a love of judo get extra training and guidance from us, alongside their own club.',
-    ctaParents: 'Information for parents',
-    ctaClubs: 'Find a club',
-    whoTitle: 'Who we are',
-    whoText:
-      'We are coaches, volunteers and parents from Lindeweerd and the surrounding area. Together we make sure talented judoka get good guidance, close to home.',
-    partnerTitle: 'What is a talent partner?',
-    partnerText:
-      'A talent partner is a judo club that works with us. The club’s coach spots talent and can nominate a judoka. The child stays a member of their own club and trains with us on top of that.',
-    points: [
-      { title: 'Their own club stays home base', text: 'Friends, coach and the familiar mat all stay the same.' },
-      { title: 'Tailored extra training', text: 'Small groups, focused on technique, fun and confidence.' },
-      { title: 'One step at a time', text: 'No pressure: every child grows at their own pace.' },
+    description: 'Top Judo Lindeweerd helps talented young judoka progress, alongside their own judo club.',
+    eyebrow: 'Talent partner for young judoka · Lindeweerd region',
+    title: 'Helping judoka grow to their own top level',
+    lead: 'Extra training, camps and competition coaching for talented young people. Together with six judo clubs in the region, alongside their own club.',
+    ctaParents: 'For parents: how it works',
+    ctaClubs: 'Find a judo club',
+    lookingTitle: 'What are you looking for?',
+    tiles: [
+      { icon: 'pin', title: 'Getting started with judo', text: 'Why judo, and a club near you.', key: 'whyJudo' },
+      { icon: 'star', title: 'My child has talent', text: 'How joining works, and what membership includes.', key: 'parents' },
+      { icon: 'lock', title: 'I am a member', text: 'Schedule, competitions and documents.', key: 'members' },
+      { icon: 'whistle', title: 'I am a club coach', text: 'Nominate a talent and see what your club gets back.', key: 'coaches' },
     ],
-    ctaTitle: 'Does your child have a talent for judo?',
-    ctaText: 'Find out how the pathway works, whether it suits your child and what membership includes.',
-    ctaButton: 'Go to the parents page',
+    layersTitle: 'What is a talent partner?',
+    layersIntro: 'Judo has three levels. Top Judo Lindeweerd is the middle one: the bridge between the club and the top.',
+    layers: [
+      { label: 'Level 1', title: 'Your own judo club', text: 'For everyone. This is where you learn judo and earn your belts.' },
+      { label: 'Level 2', title: 'Talent partner: Top Judo Lindeweerd', text: 'Extra training and coaching for talent from the region.', highlight: true },
+      { label: 'Level 3', title: 'National top', text: 'The national squads of the judo federation.' },
+    ],
+    stats: [
+      { value: '2019', label: 'founded' },
+      { value: '6', label: 'partner clubs' },
+      { value: '±40', label: 'talented judoka' },
+      { value: '9–21', label: 'years old' },
+    ],
+    statsNote: 'Fictional figures for this demo.',
+    clubsTitle: 'Our partner clubs',
+    clubsIntro: 'Every judoka in the talent programme starts at one of these clubs. Looking for judo for your child? Start here.',
+    clubsCta: 'Find a club near you',
+    coachesCta: 'Club coach? Nominate a talent',
   },
 }[lang];
 
 const news = (await getLocalized('nieuws', lang))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
+const clubs = (await getLocalized('clubs', lang)).sort((a, b) => a.data.name.localeCompare(b.data.name));
 ---
 
 <Base lang={lang} title={t('site.name')} description={copy.description} alternates={routes.home}>
-  <section class="hero">
-    <div class="container hero-inner">
-      <div>
-        <h1>{copy.heroTitle}</h1>
-        <p class="lead">{copy.heroLead}</p>
-        <p class="actions">
-          <a class="button" href={path('parents', lang)}>{copy.ctaParents}</a>
-          <a class="button button--ghost" href={path('clubs', lang)}>{copy.ctaClubs}</a>
-        </p>
-      </div>
-      <img src="/images/placeholders/hero.svg" alt="" width="600" height="500" />
-    </div>
-  </section>
+  <PageHero large eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead}>
+    <Fragment slot="actions">
+      <a class="button button--accent" href={path('parents', lang)}>{copy.ctaParents}</a>
+      <a class="button button--on-dark" href={path('clubs', lang)}>{copy.ctaClubs}</a>
+    </Fragment>
+  </PageHero>
 
-  <section class="section">
-    <div class="container two-col">
-      <div>
-        <h2>{copy.whoTitle}</h2>
-        <p>{copy.whoText}</p>
-      </div>
-      <div>
-        <h2>{copy.partnerTitle}</h2>
-        <p>{copy.partnerText}</p>
-      </div>
-    </div>
+  <section class="section" aria-labelledby="looking-title">
     <div class="container">
-      <ul class="points grid">
+      <h2 id="looking-title">{copy.lookingTitle}</h2>
+      <ul class="plain-list tiles">
         {
-          copy.points.map((p) => (
-            <li class="card">
-              <h3>{p.title}</h3>
-              <p>{p.text}</p>
+          copy.tiles.map((tile) => (
+            <li>
+              <a class="tile" href={path(tile.key as keyof typeof routes, lang)}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={icons[tile.icon as keyof typeof icons]} />
+                <span class="tile-title">{tile.title}</span>
+                <span class="tile-text">{tile.text}</span>
+              </a>
             </li>
           ))
         }
@@ -103,66 +121,137 @@ const news = (await getLocalized('nieuws', lang))
     </div>
   </section>
 
-  <section class="section section--tint" aria-labelledby="news-title">
+  <section class="section section--tint" aria-labelledby="layers-title">
+    <div class="container">
+      <div class="section-intro">
+        <h2 id="layers-title">{copy.layersTitle}</h2>
+        <p>{copy.layersIntro}</p>
+      </div>
+      <ol class="plain-list layers">
+        {
+          copy.layers.map((l) => (
+            <li class:list={['card', l.highlight ? 'card--brand' : 'card--outline']}>
+              <p class="layer-label">{l.label}</p>
+              <h3>{l.title}</h3>
+              <p>{l.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <dl class="stats">
+        {
+          copy.stats.map((s) => (
+            <div>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="stats-note">{copy.statsNote}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="news-title">
     <div class="container">
       <div class="section-head">
-        <h2 id="news-title">{t('news.latest')}</h2>
+        <h2 id="news-title">{t('nav.news')}</h2>
         <a href={path('news', lang)}>{t('news.all')}</a>
       </div>
-      <div class="grid">
+      <div class="grid news">
         {news.map((item) => <NewsCard item={item} lang={lang} />)}
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tint" aria-labelledby="clubs-title">
     <div class="container">
-      <div class="cta">
-        <h2>{copy.ctaTitle}</h2>
-        <p>{copy.ctaText}</p>
-        <a class="button button--accent" href={path('parents', lang)}>{copy.ctaButton}</a>
+      <div class="section-intro">
+        <h2 id="clubs-title">{copy.clubsTitle}</h2>
+        <p>{copy.clubsIntro}</p>
+      </div>
+      <ul class="plain-list chips">
+        {clubs.map((c) => <li>{c.data.name} · {c.data.place}</li>)}
+      </ul>
+      <div class="actions">
+        <a class="button" href={path('clubs', lang)}>{copy.clubsCta}</a>
+        <a class="button button--ghost" href={path('coaches', lang)}>{copy.coachesCta}</a>
       </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero {
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding-block: var(--space-7);
-  }
-  .hero-inner {
+  .tiles {
     display: grid;
-    gap: var(--space-6);
-    align-items: center;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   }
-  .hero img {
-    max-width: 26rem;
-    width: 100%;
-    justify-self: center;
-  }
-  .actions {
+  .tile {
+    height: 100%;
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-5);
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-brand-tint);
+    text-decoration: none;
+    color: var(--color-brand);
   }
-  .two-col {
-    display: grid;
-    gap: var(--space-5);
+  .tile svg {
+    color: var(--color-brand-mid);
   }
-  .points {
-    list-style: none;
-    padding: 0;
-    margin-top: var(--space-5);
+  .tile:hover {
+    background: #e6ecf5;
   }
-  .points h3 {
+  .tile:hover .tile-title {
+    text-decoration: underline;
+  }
+  .tile-title {
     font-size: var(--text-lg);
+    font-weight: 700;
+  }
+  .tile-text {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+  .layers {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+  .layer-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-brand-mid) !important;
     margin-bottom: var(--space-2);
   }
-  .points p {
+  .card--brand .layer-label {
+    color: var(--color-accent) !important;
+  }
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) 2.5rem;
+    margin: var(--space-7) 0 0;
+  }
+  .stats div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .stats dd {
     margin: 0;
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .stats dt {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+  .stats-note {
+    margin: var(--space-3) 0 0;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
   }
   .section-head {
@@ -171,7 +260,7 @@ const news = (await getLocalized('nieuws', lang))
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-3);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-6);
   }
   .section-head h2 {
     margin: 0;
@@ -179,27 +268,18 @@ const news = (await getLocalized('nieuws', lang))
   .section-head a {
     font-weight: 600;
   }
-  .cta {
-    background: var(--color-brand);
-    color: #fff;
-    border-radius: var(--radius-lg);
-    padding: var(--space-7) var(--space-6);
-    text-align: center;
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: var(--space-6);
   }
-  .cta p {
-    max-width: 36rem;
-    margin-inline: auto;
-    margin-bottom: var(--space-5);
-  }
-  .cta :focus-visible {
-    outline-color: #fff;
-  }
-  @media (min-width: 48rem) {
-    .hero-inner {
-      grid-template-columns: 3fr 2fr;
-    }
-    .two-col {
-      grid-template-columns: 1fr 1fr;
-    }
+  .chips li {
+    padding: 0.625rem 1rem;
+    border-radius: 999px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    font-weight: 600;
+    font-size: 1rem;
   }
 </style>

@@ -8,55 +8,50 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const year = new Date().getFullYear();
+const tagline = {
+  nl: 'Top Judo Lindeweerd · samen met zes judoclubs uit de regio',
+  en: 'Top Judo Lindeweerd · together with six judo clubs in the region',
+}[lang];
 ---
 
 <footer class="site-footer">
   <div class="container inner">
-    <div>
-      <p class="name">{t('site.name')}</p>
-      <p class="muted">{t('site.tagline')}</p>
-    </div>
+    <p class="tagline">{tagline}</p>
     <ul class="links">
-      <li><a href={path('parents', lang)}>{t('nav.parents')}</a></li>
-      <li><a href={path('clubs', lang)}>{t('nav.clubs')}</a></li>
+      <li><a href={path('whyJudo', lang)}>{t('nav.whyJudo')}</a></li>
       <li><a href={path('coaches', lang)}>{t('nav.coaches')}</a></li>
+      <li><a href={path('clubs', lang)}>{t('nav.clubs')}</a></li>
       <li><a href={path('news', lang)}>{t('nav.news')}</a></li>
     </ul>
-    <div class="poc">
-      <p><strong>{t('footer.poc')}</strong></p>
-      <p class="muted">{t('footer.privacy')} © {year}</p>
-    </div>
+  </div>
+  <div class="container poc">
+    <p><strong>{t('footer.poc')}</strong> {t('footer.privacy')}</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    margin-top: var(--space-8);
-    background: var(--color-text);
-    color: #f3efe8;
-    padding-block: var(--space-7);
+    background: var(--color-brand-dark);
+    color: var(--color-on-brand-soft);
     font-size: var(--text-sm);
   }
   .inner {
-    display: grid;
-    gap: var(--space-5);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-block: 2.5rem var(--space-5);
   }
-  .name {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 700;
-    margin-bottom: var(--space-1);
-  }
-  .muted {
-    color: #cfc7bb; /* 10:1 op de donkere footer */
+  .tagline {
+    margin: 0;
   }
   .links {
     list-style: none;
+    margin: 0;
     padding: 0;
-    display: grid;
-    gap: var(--space-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
   }
   .site-footer a {
     color: #fff;
@@ -64,7 +59,14 @@ const year = new Date().getFullYear();
   .site-footer a:hover {
     color: var(--color-accent);
   }
-  .site-footer :focus-visible {
-    outline-color: var(--color-accent);
+  .poc {
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+    padding-block: var(--space-4) var(--space-6);
+  }
+  .poc p {
+    margin: 0;
+  }
+  .poc strong {
+    color: #fff;
   }
 </style>

@@ -1,0 +1,11 @@
+{
+  "name": "Aspirant",
+  "order": 1,
+  "pricePerYear": 190,
+  "showPrice": false,
+  "includes": [
+    "Training in the talent group for your age",
+    "Guidance from the dedicated talent coach",
+    "No competition coaching or training camps"
+  ]
+}

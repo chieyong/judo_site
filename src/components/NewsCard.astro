@@ -14,44 +14,39 @@ const t = useTranslations(lang);
 const { title, date, image, imageAlt, summary } = item.data;
 ---
 
-<article class="news-card card" lang={item.isFallback ? item.contentLang : undefined}>
+<article class="news-card" lang={item.isFallback ? item.contentLang : undefined}>
   {image && <img src={image} alt={imageAlt ?? ''} width="800" height="450" loading="lazy" />}
-  <div class="body">
-    <p class="date"><time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time></p>
-    <H class="title">
-      <a href={newsPath(item.slug, lang)}>{title}</a>
-    </H>
-    {summary && <p>{summary}</p>}
-    {item.isFallback && <p class="fallback-note" lang={lang}>{t('fallback.notice')}</p>}
-  </div>
+  <p class="date"><time datetime={date.toISOString().slice(0, 10)}>{formatDate(date, lang)}</time></p>
+  <H class="title">
+    <a href={newsPath(item.slug, lang)}>{title}</a>
+  </H>
+  {summary && <p class="summary">{summary}</p>}
+  {item.isFallback && <p class="fallback-note" lang={lang}>{t('fallback.notice')}</p>}
 </article>
 
 <style>
   .news-card {
-    padding: 0;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    gap: var(--space-3);
     position: relative;
   }
   .news-card img {
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
     width: 100%;
-  }
-  .body {
-    padding: var(--space-5);
+    height: 12.5rem;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
   }
   .date {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-2);
+    margin: 0;
   }
   .title {
     font-size: var(--text-lg);
+    margin: 0;
   }
   .title a {
-    color: var(--color-text);
     text-decoration: none;
   }
   /* Hele kaart klikbaar, maar één link voor schermlezers */
@@ -61,14 +56,22 @@ const { title, date, image, imageAlt, summary } = item.data;
     inset: 0;
   }
   .news-card:hover .title a {
-    color: var(--color-brand);
     text-decoration: underline;
   }
   .news-card:has(a:focus-visible) {
     outline: 3px solid var(--color-focus);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: var(--radius-lg);
   }
   .title a:focus-visible {
     outline: none;
+  }
+  .summary {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+  .fallback-note {
+    margin: 0;
   }
 </style>

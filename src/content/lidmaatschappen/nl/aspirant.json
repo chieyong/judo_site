@@ -1,0 +1,11 @@
+{
+  "name": "Aspirant",
+  "order": 1,
+  "pricePerYear": 190,
+  "showPrice": false,
+  "includes": [
+    "Trainen in de talentgroep van je leeftijd",
+    "Begeleiding door de vaste talenttrainer",
+    "Geen wedstrijdbegeleiding of trainingskampen"
+  ]
+}

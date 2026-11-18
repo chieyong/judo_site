@@ -1,5 +1,9 @@
 ---
-import { getLocalized, useTranslations, dayOrder } from '../i18n/utils';
+/**
+ * Trainingsweek als rooster: groepen als rijen, dagen als kolommen.
+ * Gegevens komen uit de CMS-collectie "trainingen".
+ */
+import { getLocalized, useTranslations, dayOrder, type Day } from '../i18n/utils';
 import type { Lang } from '../i18n/routes';
 
 interface Props {
@@ -9,31 +13,54 @@ interface Props {
 
 const { lang, caption } = Astro.props;
 const t = useTranslations(lang);
-const items = (await getLocalized('trainingen', lang)).sort(
-  (a, b) =>
-    dayOrder.indexOf(a.data.day) - dayOrder.indexOf(b.data.day) || a.data.time.localeCompare(b.data.time),
-);
+const items = await getLocalized('trainingen', lang);
+
+// Groepen in vaste volgorde: op bestandsnaam (die het CMS uit de Nederlandse groepsnaam maakt).
+const groups: { label: string; fallback: boolean; byDay: Map<Day, typeof items> }[] = [];
+for (const item of [...items].sort((a, b) => a.slug.localeCompare(b.slug))) {
+  let group = groups.find((g) => g.label === item.data.ageGroup);
+  if (!group) {
+    group = { label: item.data.ageGroup, fallback: item.isFallback, byDay: new Map() };
+    groups.push(group);
+  }
+  const list = group.byDay.get(item.data.day) ?? [];
+  list.push(item);
+  group.byDay.set(item.data.day, list);
+}
+const days = dayOrder.filter((d) => items.some((i) => i.data.day === d));
 ---
 
 <div class="table-wrap" role="region" aria-label={caption} tabindex="0">
   <table>
-    <caption>{caption}</caption>
+    <caption class="visually-hidden">{caption}</caption>
     <thead>
       <tr>
-        <th scope="col">{t('schedule.day')}</th>
-        <th scope="col">{t('schedule.time')}</th>
         <th scope="col">{t('schedule.ageGroup')}</th>
-        <th scope="col">{t('schedule.location')}</th>
+        {days.map((d) => <th scope="col">{t(`day.${d}`)}</th>)}
       </tr>
     </thead>
     <tbody>
       {
-        items.map((item) => (
+        groups.map((g) => (
           <tr>
-            <th scope="row">{t(`day.${item.data.day}`)}</th>
-            <td>{item.data.time}</td>
-            <td lang={item.isFallback ? item.contentLang : undefined}>{item.data.ageGroup}</td>
-            <td>{item.data.location}</td>
+            <th scope="row" lang={g.fallback ? 'nl' : undefined}>{g.label}</th>
+            {days.map((d) => {
+              const sessions = g.byDay.get(d) ?? [];
+              return (
+                <td>
+                  {sessions.length === 0 ? (
+                    <span class="none" aria-label={t('schedule.none')}>–</span>
+                  ) : (
+                    sessions.map((s) => (
+                      <span class="session">
+                        <span class="time">{s.data.time}</span>
+                        <span class="loc">{s.data.location}</span>
+                      </span>
+                    ))
+                  )}
+                </td>
+              );
+            })}
           </tr>
         ))
       }
@@ -51,24 +78,39 @@ const items = (await getLocalized('trainingen', lang)).sort(
   table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 34rem;
-  }
-  caption {
-    text-align: left;
-    font-weight: 700;
-    padding: var(--space-4) var(--space-4) var(--space-2);
+    min-width: 40rem;
   }
   th,
   td {
     text-align: left;
-    padding: var(--space-3) var(--space-4);
+    vertical-align: top;
+    padding: var(--space-4);
     border-top: 1px solid var(--color-border);
   }
   thead th {
+    border-top: 0;
+    font-size: var(--text-sm);
+    background: var(--color-brand-tint);
+  }
+  tbody th {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .session {
+    display: grid;
+  }
+  .session + .session {
+    margin-top: var(--space-2);
+  }
+  .time {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .loc {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
-  tbody th {
-    font-weight: 600;
+  .none {
+    color: var(--color-text-muted);
   }
 </style>

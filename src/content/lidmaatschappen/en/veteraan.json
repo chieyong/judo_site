@@ -1,0 +1,11 @@
+{
+  "name": "Veteran",
+  "order": 3,
+  "pricePerYear": 190,
+  "showPrice": false,
+  "includes": [
+    "For former members of Top Judo Lindeweerd",
+    "Join training on fixed evenings",
+    "Occasionally help out at clinics"
+  ]
+}

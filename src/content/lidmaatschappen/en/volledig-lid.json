@@ -1,0 +1,12 @@
+{
+  "name": "Full member",
+  "order": 2,
+  "pricePerYear": 325,
+  "showPrice": false,
+  "includes": [
+    "The complete training programme",
+    "Coaching at tournaments",
+    "Training camps and camp days",
+    "Personal development plan"
+  ]
+}

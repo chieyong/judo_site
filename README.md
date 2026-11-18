@@ -8,6 +8,8 @@ Alle namen, clubs en gegevens zijn verzonnen. Er staan geen echte persoonsgegeve
 - **Decap CMS** op `/admin` voor nieuws, clubs, trainingen en lidmaatschappen
 - **Tweetalig**: Nederlands op `/`, Engels op `/en/`
 - **Geen tracking, geen cookies**, geen externe scripts op de publieke site
+- Lettertype **Open Sans**, zelf gehost via `@fontsource/open-sans` (geen verbinding met Google)
+- Opbouw en kleuren gebaseerd op de ontwerp-mock-up; alle inhoud is fictief
 
 ---
 

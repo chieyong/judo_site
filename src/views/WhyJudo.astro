@@ -1,74 +1,88 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import { path, routes, type Lang } from '../i18n/routes';
-import { useTranslations } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
 }
 
 const { lang } = Astro.props;
-const t = useTranslations(lang);
 
 const copy = {
   nl: {
     title: 'Waarom judo?',
-    description: 'Judo als aanvulling op voetbal, hockey en andere teamsporten.',
-    lead: 'Veel kinderen doen al een teamsport. Judo is daar een sterke aanvulling op: het traint het hele lichaam en leert kinderen omgaan met spanning, winst en verlies.',
-    benefitsTitle: 'Wat judo toevoegt aan een teamsport',
-    benefits: [
-      { title: 'Valbreken', text: 'Judoka’s leren veilig vallen. Dat helpt bij elke sport en voorkomt blessures.' },
-      { title: 'Balans en kracht', text: 'Judo traint evenwicht, rompkracht en coördinatie, op een speelse manier.' },
-      { title: 'Zelfvertrouwen', text: 'Op de mat sta je er zelf voor. Dat geeft kinderen vertrouwen, ook buiten de sport.' },
-      { title: 'Respect', text: 'Groeten, op je beurt wachten en zorgen voor je partner horen bij elke training.' },
-      { title: 'Omgaan met verlies', text: 'Wie valt, staat op en probeert het opnieuw. Een les voor het leven.' },
-      { title: 'Het hele jaar door', text: 'Judo is een binnensport zonder seizoen, dus een goede aanvulling in de winter.' },
+    description: 'Wat judo een kind geeft, en waarom het een goede tweede sport is.',
+    eyebrow: 'Lindeweerd, judostad aan de rivier',
+    lead: 'Je leert vallen, opstaan en de ander respecteren. Judo maakt kinderen sterk, op de mat en daarbuiten.',
+    givesTitle: 'Wat judo een kind geeft',
+    gives: [
+      { title: 'Veilig leren vallen', text: 'Valbreken is het eerste wat je leert. Handig op de mat, op het voetbalveld en op de fiets.' },
+      { title: 'Zelfvertrouwen', text: 'Je leert je eigen kracht kennen, en wat je kunt als het spannend wordt.' },
+      { title: 'Respect en regels', text: 'Groeten voor en na elke partij. Winnen en verliezen doe je met respect.' },
+      { title: 'Een sterk lijf', text: 'Kracht, balans en lenigheid. Je hele lichaam doet mee.' },
+      { title: 'Stoeien met spelregels', text: 'Geen slaan en geen schoppen. Kinderen mogen hun energie kwijt, veilig en met toezicht.' },
+      { title: 'Elke stap zichtbaar', text: 'Met elke nieuwe band zie je dat je beter wordt. Dat motiveert.' },
     ],
-    combineTitle: 'Judo en teamsport combineren',
-    combineText:
-      'Onze talentgroepen trainen op vaste momenten, zodat ze goed te combineren zijn met een teamsport. In het gesprek met de trainer kijken we samen wat haalbaar is, zodat uw kind niet overbelast raakt.',
-    quote: '“Sinds hij op judo zit, valt hij op het voetbalveld een stuk handiger.”',
-    quoteBy: 'Fictieve ouder, Lindeweerd',
-    cta: 'Lees meer voor ouders',
+    secondTitle: 'De ideale tweede sport',
+    secondText:
+      'Veel judoka’s doen ook aan voetbal, hockey of een andere teamsport. Dat past goed: judo traint juist wat je daar ook nodig hebt. Balans, valtechniek en duelkracht, en het hele jaar door binnen.',
+    secondPoints: ['Minder blessures door goed leren vallen', 'Sterker in duels door balans en rompkracht', 'Een binnensport voor de wintermaanden'],
+    faqTitle: 'Vragen van ouders',
+    faq: [
+      { q: 'Is judo niet gevaarlijk?', a: 'Je leert eerst vallen, je traint op zachte matten en een trainer let op. Slaan en schoppen horen er niet bij.' },
+      { q: 'Vanaf welke leeftijd?', a: 'Bij sommige clubs al vanaf 4 jaar. Kijk bij de club in de buurt wat zij aanbieden.' },
+      { q: 'Wat heb ik nodig?', a: 'Voor een proefles is sportkleding genoeg. Een judopak koop je pas als je blijft, eventueel tweedehands.' },
+    ],
+    tryTitle: 'Probeer het gewoon',
+    tryText: 'Er zijn zes judoclubs in de regio die samenwerken met Top Judo Lindeweerd. Er zit er vast een bij jou in de buurt.',
+    tryCta: 'Vind een club',
+    tryParents: 'Mijn kind heeft talent',
   },
   en: {
     title: 'Why judo?',
-    description: 'Judo as a complement to football, hockey and other team sports.',
-    lead: 'Many children already play a team sport. Judo is a great complement: it trains the whole body and teaches children to handle pressure, winning and losing.',
-    benefitsTitle: 'What judo adds to a team sport',
-    benefits: [
-      { title: 'Breakfalls', text: 'Judoka learn to fall safely. That helps in every sport and prevents injuries.' },
-      { title: 'Balance and strength', text: 'Judo trains balance, core strength and coordination in a playful way.' },
-      { title: 'Confidence', text: 'On the mat you stand on your own. That builds confidence, on and off the mat.' },
-      { title: 'Respect', text: 'Bowing, waiting your turn and looking after your partner are part of every session.' },
-      { title: 'Handling defeat', text: 'If you fall, you get up and try again. A lesson for life.' },
-      { title: 'All year round', text: 'Judo is an indoor sport without a season, so it fits well in winter.' },
+    description: 'What judo gives a child, and why it is a great second sport.',
+    eyebrow: 'Lindeweerd, judo town on the river',
+    lead: 'You learn to fall, get back up and respect others. Judo makes children strong, on the mat and off it.',
+    givesTitle: 'What judo gives a child',
+    gives: [
+      { title: 'Falling safely', text: 'Breakfalls are the first thing you learn. Useful on the mat, on the football pitch and on your bike.' },
+      { title: 'Confidence', text: 'You get to know your own strength, and what you can do when things get exciting.' },
+      { title: 'Respect and rules', text: 'Bowing before and after every bout. You win and lose with respect.' },
+      { title: 'A strong body', text: 'Strength, balance and flexibility. Your whole body takes part.' },
+      { title: 'Wrestling with rules', text: 'No hitting and no kicking. Children can burn off energy, safely and supervised.' },
+      { title: 'Every step visible', text: 'With every new belt you can see yourself improve. That is motivating.' },
     ],
-    combineTitle: 'Combining judo with a team sport',
-    combineText:
-      'Our talent groups train at fixed times so they combine well with a team sport. In the conversation with the coach we look at what is feasible, so your child does not get overloaded.',
-    quote: '“Since he started judo, he falls a lot more skilfully on the football pitch.”',
-    quoteBy: 'Fictional parent, Lindeweerd',
-    cta: 'Read more for parents',
+    secondTitle: 'The ideal second sport',
+    secondText:
+      'Many judoka also play football, hockey or another team sport. That works well: judo trains exactly what you need there too. Balance, falling technique and strength in duels, and all year round indoors.',
+    secondPoints: ['Fewer injuries thanks to good breakfalls', 'Stronger in duels through balance and core strength', 'An indoor sport for the winter months'],
+    faqTitle: 'Questions from parents',
+    faq: [
+      { q: 'Isn’t judo dangerous?', a: 'You learn to fall first, you train on soft mats and a coach keeps an eye on things. Hitting and kicking are not part of it.' },
+      { q: 'From what age?', a: 'Some clubs start from age 4. Check what the club near you offers.' },
+      { q: 'What do I need?', a: 'Sports clothes are enough for a trial lesson. You only buy a judo suit if you stay, second-hand if you like.' },
+    ],
+    tryTitle: 'Just give it a try',
+    tryText: 'There are six judo clubs in the region working with Top Judo Lindeweerd. There is bound to be one near you.',
+    tryCta: 'Find a club',
+    tryParents: 'My child has talent',
   },
 }[lang];
 ---
 
 <Base lang={lang} title={copy.title} description={copy.description} alternates={routes.whyJudo}>
-  <div class="container page-header">
-    <h1>{copy.title}</h1>
-    <p class="lead">{copy.lead}</p>
-  </div>
+  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} />
 
-  <section class="section section--tint" aria-labelledby="benefits-title">
+  <section class="section" aria-labelledby="gives-title">
     <div class="container">
-      <h2 id="benefits-title">{copy.benefitsTitle}</h2>
-      <ul class="grid benefits">
+      <h2 id="gives-title">{copy.givesTitle}</h2>
+      <ul class="plain-list grid">
         {
-          copy.benefits.map((b) => (
+          copy.gives.map((g) => (
             <li class="card">
-              <h3>{b.title}</h3>
-              <p>{b.text}</p>
+              <h3>{g.title}</h3>
+              <p>{g.text}</p>
             </li>
           ))
         }
@@ -76,58 +90,94 @@ const copy = {
     </div>
   </section>
 
-  <section class="section">
-    <div class="container combine">
+  <section class="section section--tint" aria-labelledby="second-title">
+    <div class="container second">
       <div>
-        <h2>{copy.combineTitle}</h2>
-        <p>{copy.combineText}</p>
-        <a class="button" href={path('parents', lang)}>{copy.cta}</a>
+        <h2 id="second-title">{copy.secondTitle}</h2>
+        <p class="muted">{copy.secondText}</p>
       </div>
-      <figure class="quote">
-        <blockquote><p>{copy.quote}</p></blockquote>
-        <figcaption>{copy.quoteBy}</figcaption>
-      </figure>
+      <ul class="plain-list points">
+        {
+          copy.secondPoints.map((p) => (
+            <li>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+              {p}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="container">
+      <h2 id="faq-title">{copy.faqTitle}</h2>
+      <div class="faq">
+        {
+          copy.faq.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <div>
+                <p>{f.a}</p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="try" aria-labelledby="try-title">
+    <div class="container inner">
+      <h2 id="try-title">{copy.tryTitle}</h2>
+      <p>{copy.tryText}</p>
+      <div class="actions">
+        <a class="button button--accent" href={path('clubs', lang)}>{copy.tryCta}</a>
+        <a class="button button--on-dark" href={path('parents', lang)}>{copy.tryParents}</a>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .benefits {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .benefits h3 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-2);
-  }
-  .benefits p {
-    margin: 0;
-  }
-  .combine {
+  .second {
     display: grid;
     gap: var(--space-6);
     align-items: center;
   }
-  .quote {
-    margin: 0;
-    padding: var(--space-6);
-    background: var(--color-accent-tint);
+  .points {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .points li {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
     border-radius: var(--radius-lg);
-    border-left: 6px solid var(--color-accent);
+    font-weight: 600;
   }
-  .quote blockquote {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
+  .points svg {
+    color: var(--color-brand-mid);
+    flex: none;
   }
-  .quote figcaption {
-    margin-top: var(--space-3);
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
+  .try {
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+  }
+  .try .inner {
+    padding-block: var(--space-8);
+  }
+  .try p {
+    color: var(--color-on-brand-muted);
+    max-width: 40rem;
+    margin-bottom: var(--space-5);
   }
   @media (min-width: 48rem) {
-    .combine {
+    .second {
       grid-template-columns: 3fr 2fr;
     }
   }

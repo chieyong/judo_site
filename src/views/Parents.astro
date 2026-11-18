@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
 import MembershipCard from '../components/MembershipCard.astro';
 import Schedule from '../components/Schedule.astro';
 import { getLocalized, useTranslations } from '../i18n/utils';
@@ -14,80 +15,155 @@ const t = useTranslations(lang);
 
 const copy = {
   nl: {
-    title: 'Voor ouders',
+    title: 'Talent op de mat? Geef het meer uitdaging.',
+    pageTitle: 'Voor ouders',
     description: 'Hoe werkt het talenttraject, past het bij uw kind, en wat houdt een lidmaatschap in?',
-    lead: 'Uw kind blijft lid van de eigen judoclub. Bij ons komt er extra training en begeleiding bij. Hieronder leest u hoe dat werkt.',
-    stepsTitle: 'Het traject in vier stappen',
+    eyebrow: 'Voor ouders',
+    lead: 'Top Judo Lindeweerd geeft talentvolle judoka’s uit de regio extra trainingen, kampen en wedstrijdcoaching. Naast hun eigen club, niet in plaats van.',
+    ctaSteps: 'Zo werkt het',
+    ctaClubs: 'Vind een club',
+    fitTitle: 'Past dit bij mijn kind?',
+    fitIntro:
+      'Het talentprogramma is bedoeld voor judoka’s die meer uitdaging nodig hebben dan hun club kan bieden. Niet iedereen kan instromen. Zo houden we het niveau hoog, en blijft de club de plek voor de basis.',
+    fitSignals: [
+      { title: 'Plezier en inzet', text: 'Gaat graag naar judo en wil vaak méér trainen.' },
+      { title: 'Leert snel', text: 'Pikt technieken snel op en wil ze goed doen.' },
+      { title: 'Wil winnen', text: 'Vindt wedstrijden leuk en kan tegen verlies.' },
+      { title: 'Tijd en steun', text: 'Het gezin kan twee tot vier trainingen per week inplannen.' },
+    ],
+    fitProposal: 'Deze vier signalen worden nog bevestigd door de technische staf.',
+    fitNext: 'Herkent u uw kind in de meeste punten? Bespreek het dan eerst met de clubtrainer. Die kent uw kind het best.',
+    stepsTitle: 'Zo werkt het',
+    stepsIntro: 'Meestal draagt de clubtrainer een talent voor. U mag als ouder ook zelf het initiatief nemen, maar de clubtrainer is er altijd bij.',
     steps: [
-      { title: 'Club', text: 'Uw kind traint bij een van onze partnerclubs en heeft plezier in judo.' },
-      { title: 'Trainer', text: 'De trainer ziet talent en bespreekt met u of extra training past.' },
-      { title: 'Stage en selectie', text: 'Uw kind doet mee aan een kennismakingstraining of stagedag. Daarna volgt een gesprek.' },
-      { title: 'Instroom', text: 'Uw kind start in een talentgroep die past bij leeftijd en niveau.' },
+      { title: 'Judo bij je club', text: 'De basis blijft de eigen club. Daar train je, en daar haal je je banden.' },
+      { title: 'Overleg met je clubtrainer', text: 'De trainer draagt je voor, of jullie vragen samen een proeftraining aan.' },
+      { title: 'Proeftraining', text: 'Je traint een paar keer mee. Onder 13? Je mag ook eerst gratis meetrainen op donderdag.' },
+      { title: 'Ja, of nog niet', text: 'Ja: je traint voortaan bij ons én je club. Nog niet: je krijgt advies en mag later opnieuw komen.' },
     ],
-    checkTitle: 'Past dit bij mijn kind?',
-    checkIntro: 'Herkent u een paar van deze punten? Dan is het de moeite waard om met de trainer te praten.',
-    checklist: [
-      'Mijn kind gaat met plezier naar judo en wil vaak meer trainen.',
-      'Mijn kind leert technieken snel en wil ze graag goed doen.',
-      'Mijn kind kan tegen zijn of haar verlies en probeert het opnieuw.',
-      'Ons gezin kan één tot drie extra trainingen per week inplannen.',
-      'Mijn kind combineert judo graag met school en vrienden, zonder dat het te veel wordt.',
+    moreTitle: 'Meer dan alleen judo',
+    moreIntro: 'Een talent groeit niet alleen op de mat. Daarom bouwen we aan vier dingen tegelijk.',
+    more: [
+      { title: 'Judo', text: 'Techniek, randori en wedstrijdtraining. Tot vier keer per week, afhankelijk van de leeftijd.' },
+      { title: 'Kracht', text: 'Een individueel krachttraject onder begeleiding, op uitnodiging van de technische staf.' },
+      { title: 'Conditie', text: 'Loop- en bootcamptrainingen in het park, en een eigen trainingskamp in de zomer.' },
+      { title: 'Begeleiding', text: 'Aandacht voor voeding, mentale gezondheid en een vertrouwenscontactpersoon.' },
     ],
-    checkNote: 'Uw antwoorden worden nergens opgeslagen. Het is alleen een hulpmiddel voor uzelf.',
-    membershipTitle: 'Lidmaatschappen',
-    membershipIntro: 'Er zijn drie vormen. Welke past, bespreekt u samen met de trainer.',
-    scheduleTitle: 'Trainingsrooster',
-    scheduleCaption: 'Trainingen van de talentgroepen',
-    nextTitle: 'Volgende stap',
-    nextText: 'Praat met de trainer van uw eigen club. Nog geen club? Bekijk onze partnerclubs.',
+    membershipTitle: 'Lidmaatschap',
+    membershipIntro: 'Na de proeftraining kiest u samen met de trainer: aspirant of meteen volledig lid. Het verschil zit in wedstrijdcoaching en trainingskampen.',
+    clubFee: 'Het lidmaatschap van de eigen club loopt gewoon door en betaalt u daar.',
+    scheduleTitle: 'Trainingsweek',
+    scheduleIntro: 'Wat uw kind traint, hangt af van de leeftijd. Wijzigingen staan in de ledenomgeving.',
+    scheduleCaption: 'Trainingen per leeftijdsgroep en dag',
+    faqTitle: 'Vragen van ouders',
+    faq: [
+      { q: 'Blijft mijn kind lid van de eigen club?', a: 'Ja, dat is verplicht. Banden haal je alleen bij je eigen club, en daar blijf je ook trainen.' },
+      { q: 'Voor wie doet mijn kind mee aan wedstrijden?', a: 'Voor de eigen club. In onze berichten noemen we de judoka altijd met de club erbij.' },
+      { q: 'Hoeveel tijd kost het?', a: 'Twee tot vier trainingen per week bij ons, naast de training bij de club. In het gesprek kijken we wat haalbaar is naast school.' },
+      { q: 'En als mijn kind (nog) niet wordt aangenomen?', a: 'Dan krijgt u advies over wat uw kind kan oefenen. Over een half jaar mag uw kind opnieuw een proeftraining doen.' },
+    ],
+    finalTitle: 'Klaar voor de volgende stap?',
+    finalText: 'Praat met de trainer van de eigen club. Nog geen club? Bekijk onze partnerclubs.',
   },
   en: {
-    title: 'For parents',
+    title: 'Talent on the mat? Give it more of a challenge.',
+    pageTitle: 'For parents',
     description: 'How the talent pathway works, whether it suits your child, and what membership includes.',
-    lead: 'Your child stays a member of their own judo club. With us they get extra training and guidance on top of that. Here is how it works.',
-    stepsTitle: 'The pathway in four steps',
+    eyebrow: 'For parents',
+    lead: 'Top Judo Lindeweerd gives talented judoka from the region extra training, camps and competition coaching. Alongside their own club, not instead of it.',
+    ctaSteps: 'How it works',
+    ctaClubs: 'Find a club',
+    fitTitle: 'Is this right for my child?',
+    fitIntro:
+      'The talent programme is for judoka who need more of a challenge than their club can offer. Not everyone can join. That keeps the level high, and the club remains the place for the basics.',
+    fitSignals: [
+      { title: 'Enjoyment and effort', text: 'Loves judo and often wants to train more.' },
+      { title: 'Learns quickly', text: 'Picks up techniques fast and wants to get them right.' },
+      { title: 'Wants to win', text: 'Enjoys competitions and copes with losing.' },
+      { title: 'Time and support', text: 'The family can fit in two to four sessions a week.' },
+    ],
+    fitProposal: 'These four signals are still to be confirmed by the technical staff.',
+    fitNext: 'Do you recognise your child in most of these? Talk to the club coach first. They know your child best.',
+    stepsTitle: 'How it works',
+    stepsIntro: 'Usually the club coach nominates a talent. As a parent you can also take the initiative, but the club coach is always involved.',
     steps: [
-      { title: 'Club', text: 'Your child trains at one of our partner clubs and enjoys judo.' },
-      { title: 'Coach', text: 'The coach spots talent and discusses with you whether extra training is a good fit.' },
-      { title: 'Camp and selection', text: 'Your child joins an introductory session or camp day, followed by a conversation.' },
-      { title: 'Joining', text: 'Your child starts in a talent group that fits their age and level.' },
+      { title: 'Judo at your club', text: 'Your own club stays the base. That is where you train and earn your belts.' },
+      { title: 'Talk to your club coach', text: 'The coach nominates you, or you request a trial session together.' },
+      { title: 'Trial session', text: 'You join a few sessions. Under 13? You can also first train along for free on Thursday.' },
+      { title: 'Yes, or not yet', text: 'Yes: you now train with us and at your club. Not yet: you get advice and can try again later.' },
     ],
-    checkTitle: 'Is this right for my child?',
-    checkIntro: 'Do you recognise a few of these? Then it is worth talking to the coach.',
-    checklist: [
-      'My child enjoys judo and often wants to train more.',
-      'My child picks up techniques quickly and wants to get them right.',
-      'My child copes with losing and tries again.',
-      'Our family can fit in one to three extra sessions a week.',
-      'My child likes to combine judo with school and friends without it becoming too much.',
+    moreTitle: 'More than just judo',
+    moreIntro: 'Talent does not only grow on the mat. That is why we work on four things at once.',
+    more: [
+      { title: 'Judo', text: 'Technique, randori and competition training. Up to four times a week, depending on age.' },
+      { title: 'Strength', text: 'An individual, supervised strength programme, by invitation of the technical staff.' },
+      { title: 'Fitness', text: 'Running and bootcamp sessions in the park, and our own summer training camp.' },
+      { title: 'Support', text: 'Attention to nutrition, mental health and a confidential contact person.' },
     ],
-    checkNote: 'Your answers are not stored anywhere. This is only a tool for yourself.',
-    membershipTitle: 'Memberships',
-    membershipIntro: 'There are three options. You decide together with the coach which one fits.',
-    scheduleTitle: 'Training schedule',
-    scheduleCaption: 'Talent group training sessions',
-    nextTitle: 'Next step',
-    nextText: 'Talk to the coach at your own club. No club yet? Have a look at our partner clubs.',
+    membershipTitle: 'Membership',
+    membershipIntro: 'After the trial session you choose together with the coach: aspirant or straight to full member. The difference is competition coaching and training camps.',
+    clubFee: 'Membership of your own club continues as usual and is paid there.',
+    scheduleTitle: 'Training week',
+    scheduleIntro: 'What your child trains depends on their age. Changes are posted in the members area.',
+    scheduleCaption: 'Training sessions by age group and day',
+    faqTitle: 'Questions from parents',
+    faq: [
+      { q: 'Does my child stay a member of their own club?', a: 'Yes, that is required. Belts are only awarded at your own club, and you keep training there too.' },
+      { q: 'Who does my child compete for?', a: 'For their own club. In our news we always mention the judoka together with their club.' },
+      { q: 'How much time does it take?', a: 'Two to four sessions a week with us, on top of club training. We discuss what is feasible alongside school.' },
+      { q: 'What if my child is not (yet) accepted?', a: 'You get advice on what your child can work on. After six months your child can do another trial session.' },
+    ],
+    finalTitle: 'Ready for the next step?',
+    finalText: 'Talk to the coach at your own club. No club yet? Have a look at our partner clubs.',
   },
 }[lang];
 
 const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base lang={lang} title={copy.title} description={copy.description} alternates={routes.parents}>
-  <div class="container page-header">
-    <h1>{copy.title}</h1>
-    <p class="lead">{copy.lead}</p>
-  </div>
+<Base lang={lang} title={copy.pageTitle} description={copy.description} alternates={routes.parents}>
+  <PageHero eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead}>
+    <Fragment slot="actions">
+      <a class="button button--accent" href="#zo-werkt-het">{copy.ctaSteps}</a>
+      <a class="button button--on-dark" href={path('clubs', lang)}>{copy.ctaClubs}</a>
+    </Fragment>
+  </PageHero>
 
-  <section class="section section--tint" aria-labelledby="steps-title">
+  <section class="section" aria-labelledby="fit-title">
     <div class="container">
-      <h2 id="steps-title">{copy.stepsTitle}</h2>
-      <ol class="steps">
+      <div class="section-intro">
+        <h2 id="fit-title">{copy.fitTitle}</h2>
+        <p>{copy.fitIntro}</p>
+      </div>
+      <ul class="plain-list grid">
+        {
+          copy.fitSignals.map((s) => (
+            <li class="card">
+              <svg class="check-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                <path d="M5 12.5l4.5 4.5L19 7.5" />
+              </svg>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note"><span class="proposal">{t('proposal')}</span> {copy.fitProposal}</p>
+      <p class="fit-next">{copy.fitNext}</p>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="zo-werkt-het" aria-labelledby="steps-title">
+    <div class="container">
+      <div class="section-intro">
+        <h2 id="steps-title">{copy.stepsTitle}</h2>
+        <p>{copy.stepsIntro}</p>
+      </div>
+      <ol class="plain-list grid">
         {
           copy.steps.map((s, i) => (
-            <li class="step card">
-              <span class="step-nr" aria-hidden="true">{i + 1}</span>
+            <li class="card">
+              <span class:list={['step-nr', { 'step-nr--accent': i === copy.steps.length - 1 }]} aria-hidden="true">{i + 1}</span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
             </li>
@@ -97,127 +173,114 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="check-title">
+  <section class="section" aria-labelledby="more-title">
     <div class="container">
-      <h2 id="check-title">{copy.checkTitle}</h2>
-      <p>{copy.checkIntro}</p>
-      <fieldset class="checklist card">
-        <legend class="visually-hidden">{copy.checkTitle}</legend>
+      <div class="section-intro">
+        <h2 id="more-title">{copy.moreTitle}</h2>
+        <p>{copy.moreIntro}</p>
+      </div>
+      <ul class="plain-list grid">
         {
-          copy.checklist.map((line, i) => (
-            <div class="check">
-              <input type="checkbox" id={`check-${i}`} />
-              <label for={`check-${i}`}>{line}</label>
-            </div>
+          copy.more.map((m) => (
+            <li class="card card--outline">
+              <h3>{m.title}</h3>
+              <p>{m.text}</p>
+            </li>
           ))
         }
-      </fieldset>
-      <p class="hint">{copy.checkNote}</p>
+      </ul>
     </div>
   </section>
 
-  <section class="section section--accent" aria-labelledby="membership-title">
+  <section class="section section--tint" aria-labelledby="membership-title">
     <div class="container">
-      <h2 id="membership-title">{copy.membershipTitle}</h2>
-      <p>{copy.membershipIntro}</p>
+      <div class="section-intro">
+        <h2 id="membership-title">{copy.membershipTitle}</h2>
+        <p>{copy.membershipIntro}</p>
+      </div>
       <div class="grid">
         {memberships.map((m) => <MembershipCard item={m} lang={lang} />)}
       </div>
-      <p class="price-notice">{t('price.notice')}</p>
+      <div class="price-notice">
+        <p><strong>{t('price.notice')}</strong></p>
+        <p>{copy.clubFee}</p>
+      </div>
     </div>
   </section>
 
   <section class="section" aria-labelledby="schedule-title">
     <div class="container">
-      <h2 id="schedule-title">{copy.scheduleTitle}</h2>
+      <div class="section-intro">
+        <h2 id="schedule-title">{copy.scheduleTitle}</h2>
+        <p>{copy.scheduleIntro}</p>
+      </div>
       <Schedule lang={lang} caption={copy.scheduleCaption} />
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--tint" aria-labelledby="faq-title">
     <div class="container">
-      <h2>{copy.nextTitle}</h2>
-      <p>{copy.nextText}</p>
-      <p class="actions">
-        <a class="button" href={path('clubs', lang)}>{t('nav.clubs')}</a>
+      <h2 id="faq-title">{copy.faqTitle}</h2>
+      <div class="faq">
+        {
+          copy.faq.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <div>
+                <p>{f.a}</p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section final">
+    <div class="container">
+      <h2>{copy.finalTitle}</h2>
+      <p>{copy.finalText}</p>
+      <div class="actions">
+        <a class="button button--accent" href={path('clubs', lang)}>{t('nav.clubs')}</a>
         <a class="button button--ghost" href={path('whyJudo', lang)}>{t('nav.whyJudo')}</a>
-      </p>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .steps {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-4);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
-    counter-reset: none;
+  .check-icon {
+    color: var(--color-brand-mid);
+    margin-bottom: var(--space-3);
   }
-  .step {
-    position: relative;
-    padding-top: var(--space-6);
-  }
-  .step-nr {
-    position: absolute;
-    top: calc(-1 * var(--space-4));
-    left: var(--space-5);
-    display: grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: var(--color-brand);
-    color: #fff;
-    font-weight: 700;
-  }
-  .steps {
-    padding-top: var(--space-4);
-  }
-  .step h3 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-2);
-  }
-  .step p {
-    margin: 0;
-  }
-  .checklist {
-    max-width: 42rem;
-    margin: 0;
-    display: grid;
-    gap: var(--space-3);
-  }
-  .check {
-    display: flex;
-    gap: var(--space-3);
-    align-items: flex-start;
-  }
-  .check input {
-    width: 1.375rem;
-    height: 1.375rem;
-    margin-top: 0.2rem;
-    accent-color: var(--color-brand);
-    flex: none;
-  }
-  .hint {
+  .note {
+    margin-top: var(--space-5);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin-top: var(--space-3);
+  }
+  .fit-next {
+    max-width: 42rem;
+    font-weight: 600;
+    margin: var(--space-3) 0 0;
   }
   .price-notice {
-    margin-top: var(--space-5);
-    padding: var(--space-4) var(--space-5);
-    background: var(--color-surface);
-    border-left: 4px solid var(--color-accent);
-    border-radius: var(--radius);
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-accent-tint);
+    color: var(--color-accent-text);
+    border-radius: var(--radius-lg);
     max-width: 48rem;
-    font-weight: 600;
   }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
+  .price-notice p:last-child {
+    margin: 0;
+  }
+  .final {
+    text-align: center;
+  }
+  .final p {
+    color: var(--color-text-muted);
+  }
+  .final .actions {
+    justify-content: center;
   }
 </style>

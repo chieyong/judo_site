@@ -1,0 +1,71 @@
+---
+/** Donkerblauwe kopbalk bovenaan elke pagina. Knoppen gaan in het "actions"-slot. */
+interface Props {
+  title: string;
+  eyebrow?: string;
+  lead?: string;
+  /** Groter, met achtergrondpatroon (homepage). */
+  large?: boolean;
+}
+
+const { title, eyebrow, lead, large = false } = Astro.props;
+const hasActions = Astro.slots.has('actions');
+---
+
+<section class:list={['hero', { 'hero--large': large }]}>
+  <div class="container inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    {
+      hasActions && (
+        <div class="actions">
+          <slot name="actions" />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--color-brand);
+    color: var(--color-on-brand);
+  }
+  .hero--large {
+    /* Abstract patroon in plaats van een foto: geen echte personen */
+    background:
+      repeating-linear-gradient(135deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 22px),
+      var(--color-brand);
+    border-bottom: 6px solid var(--color-accent);
+  }
+  .inner {
+    padding-block: 5rem 4.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .hero--large .inner {
+    padding-block: 7rem 6.5rem;
+  }
+  h1 {
+    margin: 0;
+    max-width: 50rem;
+  }
+  .eyebrow {
+    margin: 0;
+    color: var(--color-on-brand-soft);
+  }
+  .lead {
+    margin: 0;
+    color: var(--color-on-brand-muted);
+    font-size: var(--text-lg);
+    max-width: 41rem;
+  }
+  .actions {
+    margin-top: var(--space-2);
+  }
+  .hero :global(:focus-visible) {
+    outline-color: var(--color-accent);
+  }
+</style>

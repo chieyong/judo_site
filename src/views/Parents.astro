@@ -118,6 +118,14 @@ const copy = {
   },
 }[lang];
 
+// Iconen voor judo, kracht, conditie en begeleiding
+const pillarIcons = [
+  '<circle cx="12" cy="5" r="2.5"></circle><path d="M5 21l4-8 3 2 3-2 4 8M8 11l4-3 4 3"></path>',
+  '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"></path>',
+  '<path d="M3 12h4l3-7 4 14 3-7h4"></path>',
+  '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"></path>',
+];
+
 const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) => a.data.order - b.data.order);
 ---
 
@@ -130,26 +138,30 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
   </PageHero>
 
   <section class="section" aria-labelledby="fit-title">
-    <div class="container">
-      <div class="section-intro">
+    <div class="container split">
+      <div>
         <h2 id="fit-title">{copy.fitTitle}</h2>
-        <p>{copy.fitIntro}</p>
+        <p class="muted">{copy.fitIntro}</p>
+        <p class="fit-next">{copy.fitNext}</p>
       </div>
-      <ul class="plain-list grid">
-        {
-          copy.fitSignals.map((s) => (
-            <li class="card">
-              <svg class="check-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-                <path d="M5 12.5l4.5 4.5L19 7.5" />
-              </svg>
-              <h3>{s.title}</h3>
-              <p>{s.text}</p>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="note"><span class="proposal">{t('proposal')}</span> {copy.fitProposal}</p>
-      <p class="fit-next">{copy.fitNext}</p>
+      <div>
+        <ul class="plain-list checklist">
+          {
+            copy.fitSignals.map((s) => (
+              <li>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+                <span>
+                  <strong>{s.title}</strong>
+                  <span class="muted"> {s.text}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="note"><span class="proposal">{t('proposal')}</span> {copy.fitProposal}</p>
+      </div>
     </div>
   </section>
 
@@ -159,10 +171,10 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
         <h2 id="steps-title">{copy.stepsTitle}</h2>
         <p>{copy.stepsIntro}</p>
       </div>
-      <ol class="plain-list grid">
+      <ol class="plain-list timeline">
         {
           copy.steps.map((s, i) => (
-            <li class="card">
+            <li>
               <span class:list={['step-nr', { 'step-nr--accent': i === copy.steps.length - 1 }]} aria-hidden="true">{i + 1}</span>
               <h3>{s.title}</h3>
               <p>{s.text}</p>
@@ -174,21 +186,24 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
   </section>
 
   <section class="section" aria-labelledby="more-title">
-    <div class="container">
-      <div class="section-intro">
+    <div class="container split">
+      <div>
         <h2 id="more-title">{copy.moreTitle}</h2>
-        <p>{copy.moreIntro}</p>
+        <p class="muted">{copy.moreIntro}</p>
       </div>
-      <ul class="plain-list grid">
+      <dl class="pillars">
         {
-          copy.more.map((m) => (
-            <li class="card card--outline">
-              <h3>{m.title}</h3>
-              <p>{m.text}</p>
-            </li>
+          copy.more.map((m, i) => (
+            <div>
+              <dt>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" set:html={pillarIcons[i]} />
+                {m.title}
+              </dt>
+              <dd>{m.text}</dd>
+            </div>
           ))
         }
-      </ul>
+      </dl>
     </div>
   </section>
 
@@ -249,19 +264,112 @@ const memberships = (await getLocalized('lidmaatschappen', lang)).sort((a, b) =>
 </Base>
 
 <style>
-  .check-icon {
+  .split {
+    display: grid;
+    gap: var(--space-6) var(--space-8);
+  }
+  .fit-next {
+    font-weight: 600;
+    margin: 0;
+  }
+  .checklist li {
+    display: flex;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .checklist li:first-child {
+    padding-top: 0;
+  }
+  .checklist svg {
     color: var(--color-brand-mid);
-    margin-bottom: var(--space-3);
+    flex: none;
+    margin-top: 0.125rem;
   }
   .note {
-    margin-top: var(--space-5);
+    margin: var(--space-4) 0 0;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
-  .fit-next {
-    max-width: 42rem;
-    font-weight: 600;
-    margin: var(--space-3) 0 0;
+  /* Stappen als tijdlijn: verticaal op mobiel, horizontaal op breed scherm */
+  .timeline {
+    display: grid;
+    gap: var(--space-5);
+    position: relative;
+  }
+  .timeline li {
+    position: relative;
+    padding-left: 3.5rem;
+  }
+  .timeline .step-nr {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    z-index: 1;
+  }
+  .timeline li:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 2.5rem;
+    bottom: calc(-1 * var(--space-5));
+    width: 2px;
+    background: #b7c2d6;
+  }
+  .timeline h3 {
+    font-size: var(--text-lg);
+    margin: 0.375rem 0 var(--space-2);
+  }
+  .timeline p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+  .pillars {
+    display: grid;
+    gap: var(--space-5) var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    margin: 0;
+  }
+  .pillars dt {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    font-size: var(--text-lg);
+    padding-bottom: var(--space-2);
+    border-bottom: 3px solid var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+  .pillars dt svg {
+    color: var(--color-brand-mid);
+  }
+  .pillars dd {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+  }
+  @media (min-width: 56rem) {
+    .split {
+      grid-template-columns: 2fr 3fr;
+    }
+    .timeline {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+    .timeline li {
+      padding-left: 0;
+      padding-top: 3.5rem;
+    }
+    .timeline li:not(:last-child)::before {
+      left: 2.5rem;
+      right: calc(-1 * var(--space-5));
+      top: 1.25rem;
+      bottom: auto;
+      width: auto;
+      height: 2px;
+    }
   }
   .price-notice {
     margin-top: var(--space-6);
